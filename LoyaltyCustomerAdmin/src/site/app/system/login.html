@@ -1,0 +1,86 @@
+<div class="login">
+    <div class="login-window">
+        <div class="login-form">
+            <div class="login-header">
+                <!--                <div style="padding-top: 15px;"></div>
+                                <label style="padding-bottom: 0!important; padding-top: 20px; color: whitesmoke">Login</label>-->
+                <div class="text-center mb15 mt20"> 
+                    <img src="../../images/Logo.png" width="50%" alt="Logo"/>
+
+                </div> 
+                <p class="text-center mb0">Welcome to GFlock. Please sign in to your account</p>
+            </div>
+
+            <div class="alert alert-danger" ng-show="error" style="margin-bottom: 0px;">
+                {{error}}
+            </div>
+
+            <div class="text-center" ng-show="loading === 'loading'">
+                <img src="images/loading.gif" width="70px" height="70px">
+            </div><br>
+
+            <form role="form" ng-submit="login()">
+                <!--                <div class="login-input">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" class="form-control" ng-model="username" placeholder="user name" autofocus required>
+                                        </div>
+                                    </div>
+                
+                                    <div class="form-group ">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input  type="password" class="form-control" ng-model="password" placeholder="password" required>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="login-footer border-dark-top">
+                                    <button type="submit" class="btn btn-lg btn-block" style="background-color: #007399; color: white">Submit</button>
+                                </div>-->
+                <div class="form-inputs"> 
+                    <input type="text" class="form-control input-lg" placeholder="User Name" _vkenabled="true" ng-model="username" > 
+                    <input type="password" class="form-control input-lg" placeholder="Password" _vkenabled="true" ng-model="password">
+                </div> 
+                <button class="btn btn-success btn-block btn-lg" type="submit">
+                    <span>Sign in</span>
+                </button>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--<div class="app layout-fixed-header bg-white usersession login"> 
+    <div class="full-height login-window"> 
+        <div class="center-wrapper login-form"> 
+            <div class="center-content"> 
+                <div class="row no-margin"> 
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4"> 
+                        <form role="form" action="/" class="form-layout"> 
+                            <div class="text-center mb15"> 
+                                <img src="images/logo-dark.5ba260bb.png">
+                            </div> 
+                            <p class="text-center mb30">Welcome to Urban. Please sign in to your account</p>
+                            <div class="form-inputs"> 
+                                <input type="email" class="form-control input-lg" placeholder="Email Address" _vkenabled="true"> 
+                                <input type="password" class="form-control input-lg" placeholder="Password" _vkenabled="true">
+                            </div> 
+                            <button class="btn btn-success btn-block btn-lg mb15" type="submit">
+                                <span>Sign in</span>
+                            </button>
+                            <p>
+                                <a href="extras-signup.html">Create an account</a>
+                                · <a href="extras-forgot.html">Forgot your password?</a>
+                            </p>
+                        </form> 
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

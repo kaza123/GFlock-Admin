@@ -1,0 +1,81 @@
+<div class="col-lg-8 col-md-8 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <h4 class="no-margin">Enter SMS Discount Details</h4>
+            <br>
+            <span class="hidden-xs">&nbsp;</span>
+        </div> 
+    </div>
+    <div class="col-lg-3 col-md-2 "> </div>
+    <div class="col-lg-6 col-md-8 col-xs-12">
+        <div class="pb20">
+            <span>Mobile No </span>
+            <input class="form-control" type="text" ng-model="model.data.mobileNo" ng-blur="ui.checkMobile()"  />
+        </div>
+        <div class="pb20">
+            <span>Type </span>
+            <select class='form-control' style="padding-top: 4px" ng-model="model.data.recidance">
+                <option value="" class="active">Mr Miss Mrs</option>
+                <option value="Mr">Mr</option>
+                <option value="Miss">Miss</option>
+                <option value="Mrs">Mrs</option>
+            </select>
+        </div>
+        <div class="pb20">
+            <span>Name </span>
+            <input class="form-control" type="text" ng-model="model.data.name" />
+        </div>
+        <div class="pb20">
+            <span>Discount %</span>
+            <input class="form-control" type="number" ng-model="model.data.discount" />
+        </div>
+        <div class="pb20">
+            <span>Login Password</span>
+            <input class="form-control" type="password" ng-model="model.data.password" />
+        </div>
+        <div class="col-md-12 col-xs-12 col-lg-12 mt10">
+            <button class="btn btn-primary pull-right" style="width: 130px;" ng-click="ui.save()" type="button">Save</button> 
+            <button class="btn btn-warning pull-right mr20" style="width: 130px;" ng-click="ui.clear()" type="button">Clear</button> 
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-4 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary pb25"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-envelope"></i> 
+        </div> 
+        <div class="widget-details "> 
+            <h4 class="no-margin">SMS Discount Details</h4>
+            <div class="col-lg-6 pl0">
+                <input type="text" class="form-control-2 change-pl-color" placeholder="search" ng-model="model.search"/>
+            </div>
+            <div class="col-lg-3 pl0">
+                <input type="number" class="form-control-2 change-pl-color" placeholder="limit" ng-model="model.limitedCount" ng-blur="ui.getTop20()"/>
+            </div>
+            <div class="col-lg-3 pt5">
+                <span>{{model.count[1]}}</span>
+            </div>
+        </div> 
+    </div>
+    <div class="smart-scroll-y" style="max-height: calc(100vh - 165px)">
+        <div class="widget bg-white" ng-repeat="data in model.dataList | filter : model.search as filteredList" ng-show="filteredList.length"> 
+            <span >
+                <i class="fa fa-compress pull-right"></i>
+                <h3 class="mt0 mb0 bold" ng-class="ui.isActive({{data[5]}})">{{data[2]}}</h3>
+            </span>
+            <div class="small text-uppercase">{{data[0]}} {{data[1]}}</div>
+            <small class="pt5"><span class="bold" style="font-size: small">{{data[3]}} %</span> Discount <span class="bold" style="font-size: small">{{data[4]}}</span></small> 
+        </div>
+        <div class="widget bg-white" ng-hide="filteredList.length">
+            Empty.. Try Again
+        </div>
+    </div>
+</div>
+
+<!--<div class="fab-container">
+    <a class="fab fab-warning" ng-show="true" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    <a class="fab fab-lg fab-success" ng-show="true" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+</div>-->

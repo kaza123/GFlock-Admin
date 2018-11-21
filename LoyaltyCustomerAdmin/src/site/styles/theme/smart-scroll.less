@@ -1,0 +1,22 @@
+
+.smart-scroll-x{
+    overflow-x: scroll;
+}
+
+.smart-scroll-y{
+    overflow-y: scroll;
+    overflow-x:hidden;
+}
+
+.smart-scroll-x::-webkit-scrollbar, .smart-scroll-y::-webkit-scrollbar {
+    width: 5px;
+}
+
+.smart-scroll-x::-webkit-scrollbar-track, .smart-scroll-y::-webkit-scrollbar-track {
+    display: none;
+}
+
+.smart-scroll-x::-webkit-scrollbar-thumb, .smart-scroll-y::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 7px;
+}

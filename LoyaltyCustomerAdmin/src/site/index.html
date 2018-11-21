@@ -1,0 +1,182 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <title>GFlock Loyalty Admin</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="images/title_loyalty.png">
+
+        <!--css-->
+        <!-- inject:css -->
+        <!-- endinject -->
+
+    </head>
+
+    <body onload="myFunction()" ng-app="AppModule" ng-controller="IndexController">
+        <div id="loader" class="preloader">
+            <div class="circ1"></div>
+            <div class="circ2"></div>
+            <div class="circ3"></div>
+            <div class="circ4"></div>
+        </div>
+
+        <div class="app layout-fixed-header" id="myDiv">
+            <div class="sidebar-panel offscreen-left">
+                <div class="brand">
+                    <div class="brand-logo">
+                        <label style="font-size: 18px; color: white">GFlock</label>
+                    </div>
+
+                    <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3" data-toggle="layout-small-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </div>
+
+                <!-- main navigation -->
+                <nav role="navigation">
+                    <ul class="nav">
+                        <li ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'manager' || globals.currentUser.type === 'director' || globals.currentUser.type === 'branch manager'">
+                            <a href="#/home" ng-click="ui.CliclLevel1('Home')">
+                                <i class="fa fa-home"></i>
+                                <span >Home<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                        </li>
+
+                        <li ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'director' || globals.currentUser.type === 'shop'">
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Loyalty')">
+                                <i class="fa fa-flask"></i>
+                                <span>Loyalty<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu" ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'director'">
+                                <li ng-click="ui.CliclLevel2('SMS Discount')">
+                                    <a href="#/sms_discount">
+                                        <span>SMS Discount</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'shop'">
+                                <li ng-click="ui.CliclLevel2('Loyalty Customer')">
+                                    <a href="#/loyalty_customer">
+                                        <span>Loyalty Customer</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-show="globals.currentUser.type === 'admin'|| globals.currentUser.type==='shop'">
+                            
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Plant')">
+                                <i class="fa fa-flask"></i>
+                                <span>Plant<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Plant Issue')">
+                                    <a href="#/plant">
+                                        <span>Plant Issue</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+                <!-- /main navigation -->
+            </div>
+            <!-- /sidebar panel -->
+
+            <!-- content panel -->
+            <div class="main-panel">
+
+                <!-- top header -->
+                <header class="header navbar " >
+
+                    <div class="brand visible-xs">
+                        <!-- toggle offscreen menu -->
+                        <div class="toggle-offscreen">
+                            <a href="#" class="hamburger-icon visible-xs" data-toggle="offscreen" data-move="ltr">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <!-- /toggle offscreen menu -->
+
+                        <!-- logo -->
+                        <div class="brand-logo">
+                            GFlock Dashboard
+                        </div>
+                        <!-- /logo -->
+
+                        <!-- toggle chat sidebar small screen-->
+                        <div class="toggle-chat visible-xs">
+                            <a href="#/" class="fa fa-power-off v2  m10" data-toggle="layout-chat-open" ng-click="ui.logout()">
+                            </a>
+                        </div>
+                    </div>
+
+                    <ul class="nav navbar-nav hidden-xs col-md-12 no-padding">
+                        <li class="col-md-6">
+                            <ol class="breadcrumb mt10"> 
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-home mr5"></i>
+                                        GFlock Dashboard
+                                    </a>
+                                </li>
+                                <li ng-show="level.one">
+                                    <a href="javascript:;">
+                                        <i class="fa fa-toggle-on mr5"></i>
+                                        {{level.one}}
+                                    </a> 
+                                </li>
+                                <li ng-show="level.one && level.two" class="active ng-binding" >{{level.two}}</li>
+                            </ol>
+                        </li>
+                        <li class="col-md-3">
+                            <a href="javascript:;" data-toggle="dropdown"><span class="label label-info" style="font-size: 15px"></span>
+                            </a>
+                        </li>
+
+                        <li class="pull-right"> 
+                            <a href="javascript:;" data-toggle="dropdown"> 
+                                <img src="images/face.jpeg" class="header-avatar img-circle ml10" alt="user" title="user">
+                                <span class="pull-left bold badge bg-primary-dark">{{globals.currentUser.username}}</span> 
+                            </a> <ul class="dropdown-menu"> 
+                                <li> <a href="#/" class="fa fa-power-off">&nbsp;&nbsp;&nbsp;Logout</a> </li> 
+                            </ul> 
+                        </li>
+
+                    </ul>
+                </header>
+                <div class="main-content no-padding bg-white no-margin" ng-view>
+                </div>
+
+            </div>
+        </div>
+        <!--js-->
+        <!-- inject:js -->
+        <!-- endinject -->
+
+        <script>
+                    var myVar;
+
+                    function myFunction() {
+                        myVar = setTimeout(showPage, 1000);
+                    }
+
+                    function showPage() {
+                        document.getElementById("loader").style.display = "none";
+                        document.getElementById("myDiv").style.display = "block";
+                    }
+        </script>
+    </body>
+</html>

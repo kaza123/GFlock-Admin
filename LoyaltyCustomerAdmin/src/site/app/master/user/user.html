@@ -1,0 +1,126 @@
+<div class="bt border-primary">
+    <div class="col-sm-4 bg-default-light">
+        <div class="row text-center" style="height: 40px; background-color: #036; color: white;font-size: 20px;padding-top: 4px;">User</div>
+        <div style="margin-top: 15px;height: calc(100vh - 111px)">
+            <table class="table" style="background: none">
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">User Name :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="text" ng-model="model.user.userName" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">Password :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="password" ng-model="model.user.password" class="form-control" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">Re-enter Password :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="password" ng-model="model.user.reEnterPassword" class="form-control" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">Type :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="text" ng-model="model.user.type" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">Department :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="text" ng-model="model.user.department" class="form-control"  
+                                   uib-typeahead="department.indexNo as (department.indexNo + ' - ' + department.name) for department in model.departmentList |filter:$viewValue|limitTo:10" 
+                                   typeahead-input-formatter="ui.departmentLable(model.user.department);"
+                                   typeahead-editable="false"
+                                   >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label for="empname" class="control-label" style="margin-top: 9px">Employee :</label>
+                        </td>
+                        <td class="col-sm-8"> 
+                            <input type="text" ng-model="model.user.employee" class="form-control"  
+                                   uib-typeahead="employee.indexNo as (employee.indexNo + ' - ' + employee.name) for employee in model.employeeList |filter:$viewValue|limitTo:10" 
+                                   typeahead-input-formatter="ui.employeeLable(model.user.employee);"
+                                   typeahead-editable="false"
+                                   >
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-8 bg-white">
+
+        <div style="margin-top: 15px">
+            <div class="col-sm-3">
+                <input class="form-control" ng-model="searchEpfNo" placeholder="Search by name"><br>
+            </div>
+        </div>
+
+        <table class="table" style="margin-bottom: 0px;">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 10%">
+            <col style="width: 25%">
+            <col style="width: 20%">
+            <thead style="background-color: #eeeeee">
+                <tr>
+                    <td>Index No</td>
+                    <td>User Name</td>
+                    <td>Type</td>
+                    <td>Department</td>
+                    <td>Employee</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="smart-scroll-y" style="height: calc(100vh - 210px);">
+            <table class="table">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+                <col style="width: 25%">
+                <col style="width: 20%">
+                <tbody>
+                    <tr ng-repeat="user in model.userList | orderBy:'indexNo' ">
+                        <td>{{user.indexNo}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.type}}</td>
+                        <td>{{ui.departmentLable(user.department)}}</td>
+                        <td>{{ui.employeeLable(user.employee)}}</td>
+                        <td><button style="margin-left: 5px" class="btn btn-xs btn-danger pull-right" ng-click="ui.delete(user.indexNo,$index)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button class="btn btn-xs btn-warning pull-right" ng-click="ui.edit(user,$index)"><span class="glyphicon glyphicon-edit"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="height: 47px; border-top: 1px solid #cccccc">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-success btn-sm pull-right" style="margin-top: 8px;border-radius: 0px" ng-click="ui.save()">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Save
+                </button>
+                <button type="button" class="btn btn-primary btn-sm pull-right" style="margin-right: 10px;margin-top: 8px;border-radius: 0px" ng-click="ui.reset()">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true" ></span> Clear
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

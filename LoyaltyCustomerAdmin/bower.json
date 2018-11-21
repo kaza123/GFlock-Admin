@@ -1,0 +1,25 @@
+{
+  "name": "loyaltyAdmin",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "1.5.8",
+    "angular-route": "1.5.8",
+    "angular-animate": "1.5.8",
+    "angular-sanitize": "1.5.8",
+    "angular-bootstrap": "2.4.0",
+    "angular-base64": "2.0.4",
+    "angular-cookies": "1.5.8",
+    "angular-ui-notification": "latest",
+    "angular-filter": "latest",
+    "angular-file-saver": "latest",
+    "jquery-dist": "2.1.3",
+    "fastclick": "1.0.6",
+    "perfect-scrollbar": "0.6.16",
+    "bootstrap": "3.3.7",
+    "animate.css": "3.5.2",
+    "font-awesome": "4.7.0",
+    "angular-chart.js": "^1.1.1",
+    "chart.js": "^2.7.3"
+  }
+}

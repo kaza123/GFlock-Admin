@@ -1,0 +1,14 @@
+LoyaltyCustomerAdmin/target/
+
+LoyaltyCustomerAdmin/node_modules/
+
+LoyaltyCustomerAdmin/bower_components/
+
+LoyaltyCustomerAdmin/src/main/resources/static/
+
+LoyaltyCustomerAdmin/debug.log
+
+LoyaltyCustomerAdmin/src/main/resources/META-INF/persistence.xml
+
+LoyaltyCustomerAdmin/src/main/resources/application.properties
+LoyaltyCustomerAdmin/nb-configuration.xml
