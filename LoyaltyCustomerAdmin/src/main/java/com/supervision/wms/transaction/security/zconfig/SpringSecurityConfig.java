@@ -3,8 +3,7 @@
 // * To change this template file, choose Tools | Templates
 // * and open the template in the editor.
 // */
-package  com.supervision.wms.transaction.security.zconfig;
-
+package com.supervision.wms.transaction.security.zconfig;
 
 import com.supervision.wms.transaction.security.user.UserRepository;
 import com.supervision.wms.transaction.security.user.model.User;
@@ -38,7 +37,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/***").fullyAuthenticated()
-                .antMatchers("/**").fullyAuthenticated().and()
+                .antMatchers("/**").fullyAuthenticated()
+                .antMatchers("/api/wms/master/user").permitAll().and()
                 .httpBasic()
                 .and().csrf().disable();
 

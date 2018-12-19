@@ -47,7 +47,7 @@
                             </a>
                         </li>
 
-                        <li ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'director' || globals.currentUser.type === 'shop'">
+                        <li ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'director' || globals.currentUser.type === 'shop' || globals.currentUser.type === 'manager'">
                             <a href="javascript:;" ng-click="ui.CliclLevel1('Loyalty')">
                                 <i class="fa fa-flask"></i>
                                 <span>Loyalty<i></i></span>
@@ -65,6 +65,22 @@
                                 <li ng-click="ui.CliclLevel2('Loyalty Customer')">
                                     <a href="#/loyalty_customer">
                                         <span>Loyalty Customer</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'manager'">
+                                <li ng-click="ui.CliclLevel2('Loyalty Customer Update')">
+                                    <a href="#/loyalty_customer_update">
+                                        <span>Loyalty Customer Update</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'manager'">
+                                <li ng-click="ui.CliclLevel2('Loyalty Calender Setup')">
+                                    <a href="#/calender">
+                                        <span>Loyalty Calender Setup</span>
                                         <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
                                     </a>
                                 </li>

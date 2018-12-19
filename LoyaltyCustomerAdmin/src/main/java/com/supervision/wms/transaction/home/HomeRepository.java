@@ -39,7 +39,7 @@ public interface HomeRepository extends JpaRepository<MLoyaltyCustomer, Integer>
     public BigDecimal todaySalesIncome(@Param("branch") Integer branch,@Param("date") String date);
 
     @Query(value = "Select ifnull(sum(tr_final_value),0.00) as total_item_value,\n"
-            + "	  DATE_FORMAT(DATE_SUB('2018-07-01', INTERVAL 7 DAY), '%W') as date_name \n"
+            + "	  DATE_FORMAT(DATE_SUB(:date, INTERVAL 7 DAY), '%W') as date_name \n"
             + "     from temp_tr_details \n"
             + "     left join pos_m_item on pos_m_item.barcode=temp_tr_details.bar_code \n"
             + "     Where tr_det_type='Item'\n"

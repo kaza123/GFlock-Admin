@@ -1,0 +1,79 @@
+<div class="col-lg-8 col-md-8 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <h4 class="no-margin">Enter Calender Details</h4>
+            <br>
+            <span class="hidden-xs">&nbsp;</span>
+        </div> 
+    </div>
+    <div class="col-lg-3 col-md-2 "> </div>
+    <div class="col-lg-6 col-md-8 col-xs-12">
+        <div class="pb20">
+            <span>Date </span>
+            <input class="form-control" type="Date" ng-model="model.data.date" ng-change="ui.checkDate()"  />
+        </div>
+        <div class="pb20">
+            <span>Point </span>
+            <input class="form-control" type="text" ng-model="model.data.point" 
+                   uib-typeahead="pointType.indexNo as (pointType.name+' - '+pointType.point) for pointType in model.pointTypeList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.pointTypeLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb20">
+            <span>Point Value </span>
+            <input class="form-control" type="number" ng-model="model.data.pointValue" />
+        </div>
+        <div class="pb20">
+            <p class='pr10'>Is Active</p>
+            <label class="switch switch-primary switch-sm mb15"> 
+                <input type="checkbox" ng-model="model.data.isActive" value="true">
+                <span style="background-color: #ccc;">
+                    <i class="handle"></i>
+                </span> 
+            </label>
+        </div>
+        <div class="col-md-12 col-xs-12 col-lg-12 mt10">
+            <button class="btn btn-primary pull-right" style="width: 130px;" ng-click="ui.save()" type="button">Save</button> 
+            <button class="btn btn-warning pull-right mr20" style="width: 130px;" ng-click="ui.clear()" type="button">Clear</button> 
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-4 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary pb25"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-envelope"></i> 
+        </div> 
+        <div class="widget-details "> 
+            <h4 class="no-margin">Entered Calender Details</h4>
+            <div class="col-lg-6 pl0">
+                <input type="text" class="form-control-2 change-pl-color" placeholder="search" ng-model="model.search"/>
+            </div>
+            <div class="col-lg-3 pl0">
+                <input type="number" class="form-control-2 change-pl-color" placeholder="limit" ng-model="model.limitedCount" ng-blur="ui.getTop20()"/>
+            </div>
+            <div class="col-lg-3 pt5">
+                <span>{{model.count[1]}}</span>
+            </div>
+        </div> 
+    </div>
+    <div class="smart-scroll-y" style="max-height: calc(100vh - 165px)">
+        <div class="widget bg-white" ng-repeat="data in model.dataList| filter : model.search as filteredList" ng-show="filteredList.length"> 
+            <span >
+                <i class="fa fa-compress pull-right" ng-click="ui.setEdit(data)"></i>
+                <h3 class="mt0 mb0 bold" ng-class="ui.isActive({{data.isActive}})">{{data.date | date:'yyyy-MM-dd'}}</h3>
+            </span>
+            <small class="pt5"><span class="bold" style="font-size: small">{{data.pointValue}} %</span> Point <span class="bold badge bg-grey pull-right" style="font-size: small">{{model.pointTypeLable(data.point)}} </span></small> 
+        </div>
+        <div class="widget bg-white" ng-hide="filteredList.length">
+            Empty.. Try Again
+        </div>
+    </div>
+</div>
+
+<!--<div class="fab-container">
+    <a class="fab fab-warning" ng-show="true" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    <a class="fab fab-lg fab-success" ng-show="true" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+</div>-->

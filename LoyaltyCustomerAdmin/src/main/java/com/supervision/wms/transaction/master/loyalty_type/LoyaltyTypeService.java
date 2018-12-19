@@ -6,6 +6,7 @@
 package com.supervision.wms.transaction.master.loyalty_type;
 
 import com.supervision.wms.transaction.master.loyalty_type.model.MLoyaltyType;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,9 @@ public class LoyaltyTypeService {
 
     public MLoyaltyType findByName(String name) {
         return loyaltyTypeRepository.findByName(name);
+    }
+
+    public List<MLoyaltyType> findAll() {
+        return loyaltyTypeRepository.findAll();
     }
 }

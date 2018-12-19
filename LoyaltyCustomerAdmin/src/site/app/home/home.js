@@ -86,6 +86,7 @@
                     Factory.findOne(today + $scope.model.branch+"/"+$scope.model.filteredDate,
                             function (data) {
                                 if (data) {
+                                    console.log('&&&&&%%%%%%%%%%% todaySales '+data);
                                     $scope.model.todaySales = data;
                                 } else {
                                     $scope.model.todaySales = 0.00;

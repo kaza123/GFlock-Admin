@@ -6,21 +6,14 @@
 package com.supervision.wms.transaction.master.loyalty_customer;
 
 import com.supervision.wms.transaction.master.loyalty_customer.model.MLoyaltyCustomer;
-import com.supervision.wms.transaction.master.loyalty_setting.LoyaltySettingService;
-import com.supervision.wms.transaction.master.loyalty_setting.model.MLoyaltySetting;
-import com.supervision.wms.transaction.master.loyalty_type.LoyaltyTypeService;
-import com.supervision.wms.transaction.master.sms.SmsService;
-import com.supervision.wms.transaction.master.sms_text.SmsTextService;
-import com.supervision.wms.transaction.master.sms_text.model.MSmsText;
-import com.supervision.wms.transaction.job.loyalty_ledger.LoyaltyLedgerService;
-import com.supervision.wms.transaction.job.loyalty_ledger.model.TLoyaltyLedger;
-import java.math.BigDecimal;
+import com.supervision.wms.transaction.master.loyalty_customer_update.LoyaltyCustomerUpdateService;
+import com.supervision.wms.transaction.master.loyalty_customer_update.model.MLoyaltyCustomerUpdate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -31,31 +24,36 @@ public class LoyaltyCustomerService {
 
     @Autowired
     public LoyaltyCustomerRepository loyaltyCustomerRepository;
-
     @Autowired
-    public SmsService smsService;
-//
-    @Autowired
-    public LoyaltySettingService loyaltySettingService;
-//
-    @Autowired
-    public LoyaltyTypeService loyaltyTypeService;
-
-    @Autowired
-    public LoyaltyLedgerService loyaltyLedgerService;
+    public LoyaltyCustomerUpdateService customerUpdateService;
 
     public MLoyaltyCustomer findByMobileNo(String mobile) {
         return loyaltyCustomerRepository.findByMobileNo(mobile);
     }
 
+    @Transactional
     public Integer save(MLoyaltyCustomer loyaltyCustomer) {
         loyaltyCustomer.setName(loyaltyCustomer.getName().toUpperCase());
-        return loyaltyCustomerRepository.save(loyaltyCustomer).getIndexNo();
-        
+        Integer indexNo = loyaltyCustomerRepository.save(loyaltyCustomer).getIndexNo();
+        if (loyaltyCustomer.getIndexNo() != null || loyaltyCustomer.getIndexNo() > 0) {
+            MLoyaltyCustomerUpdate update = new MLoyaltyCustomerUpdate();
+            update.setLoyaltyCustomer(indexNo);
+            String format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            update.setUpdatedDate(format);
+            customerUpdateService.save(update);
+        }
+        return indexNo;
     }
 
     public List<Object> findCityList() {
         return loyaltyCustomerRepository.findCityList();
     }
 
+    public List<MLoyaltyCustomer> findTop20(Integer limit) {
+        return loyaltyCustomerRepository.findTop20(limit);
+    }
+
+    public Integer getCount() {
+        return loyaltyCustomerRepository.getCount();
+    }
 }

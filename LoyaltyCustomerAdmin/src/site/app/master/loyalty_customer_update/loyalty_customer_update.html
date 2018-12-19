@@ -1,0 +1,170 @@
+<div class="col-lg-8 col-md-8 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <h4 class="no-margin">Update Loyalty Customer Details</h4>
+            <br>
+            <span class="hidden-xs">&nbsp;</span>
+        </div> 
+    </div>
+    <div class="col-lg-12 col-md-12 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="pb20">
+                <span>Mobile No </span>
+                <input class="form-control" type="text" ng-model="model.data.mobileNo" />
+            </div>  
+            <div class="pb20">
+                <span>Type </span>
+                <select class='form-control' style="padding-top: 4px" ng-model="model.data.recidance">
+                    <option value="" class="active">Mr Miss Mrs</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Mrs">Mrs</option>
+                </select>
+            </div>
+
+            <div class="pb20">
+                <span>NIC </span>
+                <input class="form-control" type="text" ng-model="model.data.nic" />
+            </div>
+            <div class="pb20">
+                <span>City</span>
+                <input class="form-control" type="text" ng-model="model.data.city" />
+            </div>
+            <div class="pb20">
+                <span>Email</span>
+                <input class="form-control" type="text" ng-model="model.data.email" />
+            </div>
+            <div class="" style="display: flex">
+                <div class="col-lg-6 col-md-6 col-xs-6" style="display: flex">
+                    <p class='pr10'>Is SMS</p>
+                    <label class="switch switch-primary switch-sm mb15"> 
+                        <input type="checkbox" ng-model="model.data.isSms">
+                        <span style="background-color: #ccc;">
+                            <i class="handle"></i>
+                        </span> 
+                    </label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6" style="display: flex">
+                    <p class='pr10'>Is Delete</p>
+                    <label class="switch switch-danger switch-sm mb15"> 
+                        <input type="checkbox" ng-model="model.data.isDelete">
+                        <span style="background-color: #ccc;">
+                            <i class="handle"></i>
+                        </span> 
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="pb20">
+                <span>Loyalty No </span>
+                <input class="form-control" type="text" ng-model="model.data.loyaltyNo" />
+            </div>
+            <div class="pb20">
+                <span>Name </span>
+                <input class="form-control" type="text" ng-model="model.data.name" />
+            </div>
+            <div class="pb20">
+                <span>Address </span>
+                <input class="form-control" type="text" ng-model="model.data.address" />
+            </div>
+            <div class="pb20">
+                Birthday
+                <div style="display: flex;">
+                    <input type="month" class="form-control pt0" name="dob" data-placeholder="Year and Month " 
+                           required aria-required="true" ng-model="model.data.yearMonth" />
+                    <select class='form-control' ng-model="model.data.bDate">
+                        <option value="">Day 
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pb20">
+                <span>Loyalty Type </span>
+                <input class="form-control" type="text" ng-model="model.data.loyaltyType" 
+                       uib-typeahead="type.indexNo as (type.indexNo+' - '+type.name) for type in model.getLoyaltyTypeList |filter:$viewValue|limitTo:10" 
+                       typeahead-input-formatter="model.loyaltyTypeLable($model)" 
+                       typeahead-editable="false"/>
+            </div>
+            <div class="pb20">
+                <div class="col-md-12 col-xs-12 col-lg-12 mt10">
+                    <button class="btn btn-primary pull-right" style="width: 130px;" ng-click="ui.save()" type="button">Save</button> 
+                    <button class="btn btn-warning pull-right mr20" style="width: 130px;" ng-click="ui.clear()" type="button">Clear</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-4 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary pb25"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-envelope"></i> 
+        </div> 
+        <div class="widget-details "> 
+            <h4 class="no-margin">Loyalty Customer Details</h4>
+            <div class="col-lg-6 pl0">
+                <input type="text" class="form-control-2 change-pl-color" placeholder="search" ng-model="model.search"/>
+            </div>
+            <div class="col-lg-3 pl0">
+                <input type="number" class="form-control-2 change-pl-color" placeholder="limit" ng-model="model.limitedCount" ng-blur="ui.getTop20()"/>
+            </div>
+            <div class="col-lg-3 pt5">
+                <span>{{model.count}}</span>
+            </div>
+        </div> 
+    </div>
+    <div class="smart-scroll-y" style="max-height: calc(100vh - 165px)">
+        <div class="widget bg-white pb10" ng-repeat="data in model.dataList| filter : model.search as filteredList" ng-show="filteredList.length"> 
+            <span >
+                <i class="fa fa-compress pull-right" ng-click="ui.updateLoyalty(data)"></i>
+                <h3 class="mt0 mb0 bold" ng-class="ui.isActive(data.isDelete)" >{{data.mobileNo}}</h3>
+            </span>
+            <div class="small text-uppercase">{{data.recidance}} {{data.name}}</div>
+            <span class="small label label-default" ng-show='data.loyaltyType===1'>{{model.loyaltyTypeLable(data.loyaltyType)}}</span>
+            <span class="small label label-primary" ng-show='data.loyaltyType===2'>{{model.loyaltyTypeLable(data.loyaltyType)}}</span>
+            <span class="small label label-success" ng-show='data.loyaltyType===3'>{{model.loyaltyTypeLable(data.loyaltyType)}}</span>
+            <span class="small label label-warning" ng-show='data.loyaltyType===4'>{{model.loyaltyTypeLable(data.loyaltyType)}}</span>
+            <span class="small label label-info" ng-show='data.loyaltyType===5'>{{model.loyaltyTypeLable(data.loyaltyType)}}</span>
+        </div>
+        <div class="widget bg-white" ng-hide="filteredList.length">
+            Empty.. Try Again
+        </div>
+    </div>
+</div>

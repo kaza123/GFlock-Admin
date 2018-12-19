@@ -97,27 +97,12 @@ public class MLoyaltyCustomer implements Serializable {
     @Column(name = "is_delete")
     private boolean isDelete;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "branch_server_id")
+    private Integer branchServerId;
+    
     public MLoyaltyCustomer() {
-    }
-
-    public MLoyaltyCustomer(Integer indexNo, String recidance, String name, String mobileNo, String loyaltyNo, String nic, String address, String city, Integer bYear, Integer bMonth, Integer bDate, String email, int loyaltyType, String regDate, String proStartDate, boolean isSms, boolean isDelete) {
-        this.indexNo = indexNo;
-        this.recidance = recidance;
-        this.name = name;
-        this.mobileNo = mobileNo;
-        this.loyaltyNo = loyaltyNo;
-        this.nic = nic;
-        this.address = address;
-        this.city = city;
-        this.bYear = bYear;
-        this.bMonth = bMonth;
-        this.bDate = bDate;
-        this.email = email;
-        this.loyaltyType = loyaltyType;
-        this.regDate = regDate;
-        this.proStartDate = proStartDate;
-        this.isSms = isSms;
-        this.isDelete = isDelete;
     }
 
     public Integer getIndexNo() {
@@ -254,6 +239,14 @@ public class MLoyaltyCustomer implements Serializable {
 
     public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public Integer getBranchServerId() {
+        return branchServerId;
+    }
+
+    public void setBranchServerId(Integer branchServerId) {
+        this.branchServerId = branchServerId;
     }
 
     public boolean isValid() {

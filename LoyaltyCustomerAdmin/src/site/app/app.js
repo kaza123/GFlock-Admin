@@ -36,9 +36,17 @@
                             templateUrl: "app/master/loyalty_customer/loyalty_customer.html",
                             controller: "LoyaltyCustomerController"
                         })
+                        .when("/loyalty_customer_update", {
+                            templateUrl: "app/master/loyalty_customer_update/loyalty_customer_update.html",
+                            controller: "LoyaltyUpdateController"
+                        })
                         .when("/plant", {
                             templateUrl: "app/master/plant/plant.html",
                             controller: "PlantController"
+                        })
+                        .when("/calender", {
+                            templateUrl: "app/master/calender/calender.html",
+                            controller: "CalenterController"
                         })
                         .when("/home", {
                             templateUrl: "app/home/home.html",
