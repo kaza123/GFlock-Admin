@@ -26,7 +26,6 @@ angular.module('AppModule')
 //                var auth = username + '--' + password + ":" + password;
                 var auth = username + ":" + password;
                 auth = "Basic " + btoa(auth);
-
                 var headers = {
                     "Authorization": auth,
                     "X-Requested-With": "XMLHttpRequest"
@@ -39,7 +38,6 @@ angular.module('AppModule')
                     'headers': headers
                 })
                         .success(function (response) {
-                            console.log(response);
                             callback(response);
                         })
                         .error(function (data) {

@@ -24,4 +24,12 @@ public class BranchService {
         return branchRepository.findByType2("SALES_BRANCH");
     }
 
+    public List<MainMBranch> findByType2OrType2() {
+        return branchRepository.findByType2OrType2("SALES_BRANCH","MAIL_BRANCH");
+    }
+
+    public List<MainMBranch> findByIsDashboard() {
+        return branchRepository.findByIsDashboard(1);
+    }
+
 }

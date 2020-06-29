@@ -1,0 +1,17 @@
+<div class="option-pane" ng-class="$ctrl.optionPaneClass">
+    <div class="option-pane-body">
+        <span class="glyphicon glyphicon-print" ng-class="$ctrl.optionPaneIcon"></span>
+        <div class="option-pane-title">
+            {{$ctrl.title}}
+        </div>
+        <div class="option-pane-message">
+            {{$ctrl.message}}
+        </div>
+    </div>
+    <div class="option-pane-footer">
+        <button id="btnConfirm" class="btn" ng-click="$ctrl.confirm()">PDF</button>
+        <button id="btnCancel" class="btn clear" ng-click="$ctrl.discard()">EXCEL</button>
+<!--        <button id="pdf" class="btn" ng-click="$ctrl.pdf()">PDF</button>
+        <button id="excel" class="btn clearfix" ng-click="$ctrl.excel()">EXCEL</button>-->
+    </div>
+</div>

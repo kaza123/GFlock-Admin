@@ -1,0 +1,158 @@
+<div class="col-lg-12 col-md-12 col-xs-12 bg-default-light" style="height: calc(100vh - 115px)">
+    <div class="widget bg-primary pb25 mb5"> 
+        <div class="widget-bg-icon no-print"> 
+            <i class="fa fa-university no-print"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <div class="col-lg-6 pl0">
+                <h4 class="no-margin">System Sales Report</h4>
+            </div>
+            <div class="col-lg-6 pl0" style="display: flex">
+                <button class="btn btn-success no-print" ng-click="goFullscreen()"><i class="fa fa-expand"></i></button>
+                <span class=" no-print">Quick Search :</span>
+                <input type="text" class="form-control-2 change-pl-color no-print" placeholder="search" ng-model="search"/>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <div class="" style="max-height: calc(100vh - 182px)" id="fullScreen" >
+        <div class="col-lg-12 pb10">
+            <table>
+                <tr>
+                    <td style="width: 14.28%" class="pr2">
+                        <i> From Date</i>
+                        <input type="date" class="form-control" ng-model="ui.component.fromDate" />
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i> To Date</i>
+                        <input type="date" class="form-control" ng-model="ui.component.toDate" />
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i>Collection No</i>
+                        <input type="text" class="form-control" ng-model="ui.component.collection"
+                               uib-typeahead="collection.category as (collection.category) for collection in model.collectionList |filter:$viewValue|limitTo:10" 
+                               typeahead-input-formatter="model.collectionLable($model)" 
+                               typeahead-editable="false"/>
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i>Style No</i>
+                        <input type="text" class="form-control" ng-model="ui.component.style"
+                               uib-typeahead="style as (style.imageCode +' - '+ style.category) for style in model.styleList | orderBy:'-index_no' |filter:$viewValue|limitTo:30" 
+                               typeahead-input-formatter="model.styleLable($model)" 
+                               typeahead-editable="false"/>
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i>Department</i>
+                        <input type="text" class="form-control" ng-model="ui.component.category"
+                               uib-typeahead="category.category as (category.category) for category in model.categoryList |filter:$viewValue|limitTo:10" 
+                               typeahead-input-formatter="model.categoryLable($model)" 
+                               typeahead-editable="false"/>
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i>&nbsp;</i>
+                        <button class="btn btn-primary btn-block" ng-click="ui.getDetail()" >View</button>
+                    </td>
+                    <td style="width: 14.28%" class="pr2">
+                        <i>&nbsp;</i>
+                        <button class="btn btn-success btn-block" ng-click="ui.print()" >Print</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="widget no-padding no-margin" id="printDiv" ng-show="model.data.detailList.length"> 
+            <div class="col-lg-12" ng-show="false">
+                <table class="table">
+                    <thead>
+                    <th style="font-size: 24px;" class="text-center">Transaction Summary</th>
+                    </thead>
+                </table>
+
+                <table class="col-lg-12"> 
+                    <tbody>
+                        <tr> 
+                            <td style="width: 25%">From Date : {{ui.component.fromDate}}</td>
+                            <td style="width: 25%">To Date : {{ui.component.toDate}}</td>
+                            <td style="width: 25%">Collection : {{ui.component.collection}}</td>
+                            <td style="width: 25%">Style : {{ui.component.style}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+            <div class='table-cont no-margin smart-scroll-y' id='table-cont' style="height:calc(100vh - 230px);">
+                <table class="col-lg-12 table table-bordered" > 
+                    <thead class="bg-grey"> 
+                        <tr>
+                            <th rowspan="2">Style No</th>
+                            <th rowspan="2">Image</th>
+                            <th rowspan="2">Retail Price</th>
+                            <th rowspan="2">Color</th>
+                            <th rowspan="2">Cut Qty</th>
+                            <th rowspan="2">Shop</th>
+                            <th rowspan="2">In Qty</th>
+                            <th colspan="7" class="text-center">Sold Qty</th>
+                            <th rowspan="2">Total Sold</th>
+                            <th rowspan="2">Pre In+ Out-</th>
+                            <th rowspan="2">Balance</th>
+                        </tr>
+                        <tr>
+                            <th>6/XS/28</th>
+                            <th>8/S/30</th>
+                            <th>10/M/32</th>
+                            <th>12/L/34</th>
+                            <th>14/XL/36</th>
+                            <th>16/XXL/38</th>
+                            <th>40</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in model.data.detailList| filter:search"  ng-class="data.branchIndex === 0 ? 'bold bg-bluegrey h5' : ''">
+                            <td class="text-vertical" rowspan="{{ui.styleCount(data.style)}}" ng-show="ui.styleShow(data.style)" ><span class='text-vertical'> {{data.style}}</span></td>
+                            <td rowspan="{{ui.styleCount(data.style)}}" ng-show="ui.imageShow(data)" ><img src="{{ui.getImage(data.style)}}" ng-click="ui.viewModel(data.style)" style="width: 100px" alt="Empty"/></td>
+                            <td rowspan="{{ui.styleCount(data.style)}}" ng-show="ui.imageShow(data)" >{{data.price}}</td>
+                            <td class="text-vertical" rowspan="{{ui.colorCount(data.style)}}" ng-show="ui.colorShow($index, data.style)" ><span class='text-vertical'>{{data.color}}</span></td>
+                            <td rowspan="{{ui.colorCount(data.style)}}" ng-show="ui.colorShow($index, data.style)" >{{data.cutQty}}</td>
+                            <td>{{data.branchName}}</td>
+                            <td>{{data.grnQty}}</td>
+                            <td>{{data.a}}</td>
+                            <td>{{data.b}}</td>
+                            <td>{{data.c}}</td>
+                            <td>{{data.d}}</td>
+                            <td>{{data.e}}</td>
+                            <td>{{data.f}}</td>
+                            <td>{{data.g}}</td>
+                            <td>{{ui.dataSoldTotal(data)}}</td>
+                            <td>{{data.previousOutQty}}</td>
+                            <td>{{ui.balanceQty(data)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="widget bg-white text-center mb0" ng-show="ui.gifShow" style="height: calc(100vh - 210px);">
+        <img src="../../../images/loading_gif.gif" width="256" height="256" alt="loading_gif" class="pt30"/>
+    </div>
+    <div class="widget bg-white text-center mb0" ng-show="!model.data.detailList.length && !ui.gifShow" style="height: calc(100vh - 210px);">
+        Empty Data.
+    </div>
+</div>
+
+<script type="text/ng-template" id="model.html">
+    <div class="panel panel-primary mb0">
+    <div class="panel-heading ">
+    <div class="col-md-1 col-xs-1">&nbsp</div>
+    <h5 class="modal-title text-center h3 col-md-10 col-xs-10" ><b>Image Viewer</b></h5>
+    <span aria-hidden="true" 
+    class="pull-right col-md-1 col-xs-1 bold text-danger text-right h5"
+    ng-click="ui.modelCancel()"
+    style="cursor: pointer;">X
+    </span>
+    </div>
+    <div class="panel-body smart-scroll-y text-center" style="height: calc(100vh - 128px)">
+    <img src="{{ui.image}}" style="width: 32%" alt="Empty"/>
+    </div>
+    </div>
+</script>

@@ -16,5 +16,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BranchRepository extends JpaRepository<MainMBranch, Integer>{
 
     public List<MainMBranch> findByType2(String string);
+
+    public List<MainMBranch> findByType2OrType2(String sales_branch, String mail_branch);
+
+    public List<MainMBranch> findByIsDashboard(int i);
     
 }

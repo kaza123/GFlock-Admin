@@ -29,4 +29,14 @@ public class BranchController {
         return branchService.findByType2();
         
     }
+    @RequestMapping(value = "/is_dashboard" , method = RequestMethod.GET)
+    public List<MainMBranch> findByIsDashboard(){
+        return branchService.findByIsDashboard();
+        
+    }
+    @RequestMapping(value = "/find-sales-main-branch" , method = RequestMethod.GET)
+    public List<MainMBranch> findByType2OrType2(){
+        return branchService.findByType2OrType2();
+        
+    }
 }

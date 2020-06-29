@@ -2,7 +2,7 @@
 //module
     angular.module('homeModule', ['ui.bootstrap', 'chart.js']);
     angular.module("homeModule")
-            .controller("homeController", function ($scope, Factory, $rootScope, $location, $timeout,$filter, $uibModalStack, Notification, $uibModal) {
+            .controller("homeController", function ($scope, Factory, $rootScope, $location, $timeout,$filter, $uibModalStack,$uibModal, Notification) {
                 $scope.model = {};
                 $scope.model.chart1Lbl = [];
                 $scope.model.chart1Val = [];
@@ -41,7 +41,7 @@
                 var chart2 = "/api/sv/home/chart2/";
                 var basketValue = "/api/sv/home/basket-values/";
                 var basketValueBefore7Day = "/api/sv/home/get-sales-before-7-day/";
-                var salesBranchesUrl = "/api/sv/master/branch/find-sales-branch";
+                var salesBranchesUrl = "/api/sv/master/branch/is_dashboard";
 
                 $scope.ui.getChart1 = function () {
                     $scope.model.chart1Lbl = [];
@@ -276,19 +276,16 @@
                     $scope.ui.refersh();
 
                     //timer callback
-                    var timer = function () {
-                        $scope.time += 1000;
-                        if ($scope.time === (1000 * 60 * 10)) {
-                            console.log("Refersh Data");
-                            $scope.ui.refersh();
-                        }
-                        $timeout(timer, 1000);
-                    };
+//                    var timer = function () {
+//                        $scope.time += 1000;
+//                        if ($scope.time === (1000 * 60 * 10)) {
+//                            console.log("Refersh Data");
+//                            $scope.ui.refersh();
+//                        }
+//                        $timeout(timer, 1000);
+//                    };
 
-                    $timeout(timer, 1000);
-                    console.log($rootScope.globals.currentUser);
-
-
+//                    $timeout(timer, 1000);
                 };
                 $scope.init();
 

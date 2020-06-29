@@ -27,6 +27,14 @@
                         <span class="widget-icon bg-warning-dark fa fa-building-o "></span><br>
                         <i class="fa fa-check text-danger" ng-show="model.branch === model.branchList[1].indexNo"></i> {{model.branchList[1].name}}
                     </div>
+                    <div class="no-padding col-lg-4 col-md-4 col-xs-4" ng-click="ui.changeBranch(model.branchList[2].indexNo);"> 
+                        <span class="widget-icon bg-default-light fa fa-mixcloud"></span><br>
+                        <i class="fa fa-check text-danger" ng-show="model.branch === model.branchList[2].indexNo"></i> {{model.branchList[2].name}}
+                    </div>
+                    <div class="no-padding col-lg-4 col-md-4 col-xs-4" ng-click="ui.changeBranch(model.branchList[3].indexNo);"> 
+                        <span class="widget-icon bg-danger fa fa-anchor"></span><br>
+                        <i class="fa fa-check text-danger" ng-show="model.branch === model.branchList[3].indexNo"></i> {{model.branchList[3].name}}
+                    </div>
                 </div>
             </div>
             <!--today sales-->

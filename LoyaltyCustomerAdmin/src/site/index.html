@@ -2,7 +2,7 @@
 <html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
-        <title>GFlock Loyalty Admin</title>
+        <title>Admin Dashboard</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="shortcut icon" href="images/title_loyalty.png">
@@ -25,7 +25,7 @@
             <div class="sidebar-panel offscreen-left">
                 <div class="brand">
                     <div class="brand-logo">
-                        <label style="font-size: 18px; color: white">GFlock</label>
+                        <label style="font-size: 18px; color: white">{{companyName}}</label>
                     </div>
 
                     <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3" data-toggle="layout-small-menu">
@@ -43,7 +43,6 @@
                             <a href="#/home" ng-click="ui.CliclLevel1('Home')">
                                 <i class="fa fa-home"></i>
                                 <span >Home<i></i></span>
-                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
                             </a>
                         </li>
 
@@ -51,10 +50,9 @@
                             <a href="javascript:;" ng-click="ui.CliclLevel1('Loyalty')">
                                 <i class="fa fa-flask"></i>
                                 <span>Loyalty<i></i></span>
-                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
                             </a>
                             <ul class="sub-menu" ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'director'">
-                                <li ng-click="ui.CliclLevel2('SMS Discount')">
+                                <li ui-sref-active="active" ng-click="ui.CliclLevel2('SMS Discount')">
                                     <a href="#/sms_discount">
                                         <span>SMS Discount</span>
                                         <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
@@ -62,7 +60,7 @@
                                 </li>
                             </ul>
                             <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'shop'">
-                                <li ng-click="ui.CliclLevel2('Loyalty Customer')">
+                                <li  ui-sref-active="active" ng-click="ui.CliclLevel2('Loyalty Customer')">
                                     <a href="#/loyalty_customer">
                                         <span>Loyalty Customer</span>
                                         <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
@@ -70,7 +68,7 @@
                                 </li>
                             </ul>
                             <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'manager'">
-                                <li ng-click="ui.CliclLevel2('Loyalty Customer Update')">
+                                <li  ui-sref-active="active" ng-click="ui.CliclLevel2('Loyalty Customer Update')">
                                     <a href="#/loyalty_customer_update">
                                         <span>Loyalty Customer Update</span>
                                         <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
@@ -78,7 +76,7 @@
                                 </li>
                             </ul>
                             <ul class="sub-menu"  ng-show="globals.currentUser.type === 'admin' || globals.currentUser.type === 'manager'">
-                                <li ng-click="ui.CliclLevel2('Loyalty Calender Setup')">
+                                <li  ui-sref-active="active" ng-click="ui.CliclLevel2('Loyalty Calender Setup')">
                                     <a href="#/calender">
                                         <span>Loyalty Calender Setup</span>
                                         <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
@@ -89,7 +87,7 @@
                         <li ng-show="globals.currentUser.type === 'admin'|| globals.currentUser.type==='shop'">
                             
                             <a href="javascript:;" ng-click="ui.CliclLevel1('Plant')">
-                                <i class="fa fa-flask"></i>
+                                <i class="fa fa-tree"></i>
                                 <span>Plant<i></i></span>
                                 <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
                             </a>
@@ -102,7 +100,175 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <li ng-show="true">
+                            
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Style Image Upload')">
+                                <i class="fa fa-camera"></i>
+                                <span>Style Image Upload<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Upload')">
+                                    <a href="#/image_upload">
+                                        <span>Image Upload</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-show="true">
+                            
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Reports')">
+                                <i class="fa fa-print"></i>
+                                <span>Reports<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Stock Balance')">
+                                    <a href="#/stock_balance">
+                                        <span>Stock Balance</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Transaction Summary')">
+                                    <a href="#/transaction_summary">
+                                        <span>Transaction Summary</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Item Wise Sale')">
+                                    <a href="#/item_wise">
+                                        <span>Item Wise Sale</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Invoice Wise Sale')">
+                                    <a href="#/invoice_wise">
+                                        <span>Invoice wise Sale</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Category Wise Sale')">
+                                    <a href="#/category_wise_sale">
+                                        <span>Category Wise Sale</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Category Wise GRN')">
+                                    <a href="#/category_wise_grn">
+                                        <span>Category Wise GRN</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Style Wise Sale')">
+                                    <a href="#/style_wise_sale">
+                                        <span>Style Wise Sale</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Item Wise Grn')">
+                                    <a href="#/item_wise_grn">
+                                        <span>Item Wise Grn</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Payment Summary')">
+                                    <a href="#/payment_summary">
+                                        <span>Payment Summary</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('GRN Summary')">
+                                    <a href="#/grn_summary">
+                                        <span>GRN Summary</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('IPG Report')">
+                                    <a href="#/ipg_report">
+                                        <span>IPG Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Hourly Report')">
+                                    <a href="#/hourly_report">
+                                        <span>Hourly Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li ng-show="true">
+                            
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Admin Report')">
+                                <i class="fa fa-university"></i>
+                                <span>Admin Report<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('System Sale Report')">
+                                    <a href="#/system_sales_report">
+                                        <span>System Sale Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Sales Units KPI Report')">
+                                    <a href="#/kpi_style_report">
+                                        <span>Sales Units KPI Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Sales Unit Branch Report')">
+                                    <a href="#/sales_unit_branch_report">
+                                        <span>Sales Unit Branch Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Sales Unit Department Report')">
+                                    <a href="#/sales_unit_department_report">
+                                        <span>Sales Unit Department Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Sales Unit Designer KPI Report')">
+                                    <a href="#/sales_unit_designer_report">
+                                        <span>Sales Unit Designer KPI Report</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /main navigation -->
@@ -145,7 +311,7 @@
                                 <li>
                                     <a href="javascript:;">
                                         <i class="fa fa-home mr5"></i>
-                                        GFlock Dashboard
+                                        Home
                                     </a>
                                 </li>
                                 <li ng-show="level.one">
@@ -165,7 +331,7 @@
                         <li class="pull-right"> 
                             <a href="javascript:;" data-toggle="dropdown"> 
                                 <img src="images/face.jpeg" class="header-avatar img-circle ml10" alt="user" title="user">
-                                <span class="pull-left bold badge bg-primary-dark">{{globals.currentUser.username}}</span> 
+                                <span class="pull-left bold badge bg-success-dark">{{globals.currentUser.username}}</span> 
                             </a> <ul class="dropdown-menu"> 
                                 <li> <a href="#/" class="fa fa-power-off">&nbsp;&nbsp;&nbsp;Logout</a> </li> 
                             </ul> 
@@ -194,5 +360,6 @@
                         document.getElementById("myDiv").style.display = "block";
                     }
         </script>
+        <!--created by kasun chamara <chamara.kaza@gmail.com>-->
     </body>
 </html>

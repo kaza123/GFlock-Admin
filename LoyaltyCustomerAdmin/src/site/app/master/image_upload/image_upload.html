@@ -1,0 +1,113 @@
+<div class="col-lg-4">
+    <div class="widget row bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <h4 class="no-margin">Selection</h4>
+            <br>
+            <span class="hidden-xs">&nbsp;</span>
+        </div> 
+    </div>
+    <table class="table row mb0">
+        <tbody>
+            <tr>
+                <td style="width: 30%">Style</td>
+                <td style="width: 70%">
+                    <input type="text" class="form-control" ng-model="ui.data.style" 
+                           uib-typeahead="style.imageCode as (style.imageCode) for style in model.getStyleList |filter:$viewValue|limitTo:10" 
+                           typeahead-input-formatter="model.styleLable($model)" 
+                           typeahead-on-select="ui.changeStyle($model)"
+                           typeahead-editable="false"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="image-tile-1 mr20">
+            <label class="image-tile-browse" for="file">
+                <span class="glyphicon glyphicon-camera"></span>
+                <input class="t1" ng-model="imgSrc1" style="display: none" type="file" id="file" 
+                       onchange="angular.element(this).scope().ui.changeFunction(event)" accept="image/gif, image/jpeg, image/png">
+            </label>
+        </div>
+        <div class="image-tile remove-image mr20 container" >
+            <img src="{{imagemodelX}}" class="image-view" alt="Empty Image"> 
+        </div>
+    </div>
+    <div class="pb10 pt10">
+        <button class="btn btn-block" ng-click="ui.clear()" >Clear</button>
+    </div>
+    <div class="pb2">
+        <button class="btn btn-success btn-block" ng-click="ui.uploardImages();" >Save</button>
+    </div>
+</div>
+<div class="col-lg-8">
+    <div class="widget bg-primary pb25"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-envelope"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <div class="col-lg-6 pl0">
+                <h4 class="no-margin">Style Image Viewer</h4>
+            </div>
+            <div class="col-lg-6 pl0">
+                Style Search :
+                <input type="text" class="form-control-2 change-pl-color" placeholder="search" ng-model="search"/>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <div class="col-lg-9">
+
+        <table class="table row mb0">
+            <tbody>
+                <tr>
+                    <td style="width: 30%">Collection No :</td>
+                    <td style="width: 70%">
+                        <input type="text" class="form-control" ng-model="ui.data.collection"
+                               uib-typeahead="collection.category as (collection.category) for collection in model.collectionList |filter:$viewValue|limitTo:10" 
+                               typeahead-input-formatter="model.collectionLable($model)" 
+                               typeahead-on-select="ui.changeCollection()"
+                               typeahead-editable="false"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-lg-12 smart-scroll-y" style="height: calc(100vh - 220px)">
+            <div class="col-lg-3" ng-repeat="data in model.styleModelList | filter:search">
+                <div class="panel panel-success col-lg-12 panel-bordered no-padding">
+                    <div class="panel-heading text-center">
+                        <span>{{data.name}} </span> 
+                        <span class="fa fa-edit pull-right text-pink" ng-click="ui.edit(data)"></span>
+                    </div>
+                    <div class="panel-body no-padding" style="height: 20vh" >
+                        <img src="{{data.image}}" class="image-view" alt="Empty Image"/> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 no-padding">
+        <div class="panel panel-primary col-lg-12 panel-bordered no-padding no-margin">
+            <div class="panel-heading text-center">
+                Pending  
+            </div>
+            <div class="panel-body">
+                <div class="smart-scroll-y" style="height: calc(100vh - 256px)">
+                    <table class="table no-padding">
+                        <tbody>
+                            <tr ng-repeat="data in model.pendingStyleList | filter:search">
+                                <td>
+                                    {{data[1]}}
+                                    {{data[2]}}
+                                    <span class="fa fa-edit pull-right text-pink" ng-click="ui.pendingStyleEdit(data[1])"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

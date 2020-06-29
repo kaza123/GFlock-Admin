@@ -18,16 +18,15 @@ import org.springframework.data.repository.query.Param;
  */
 public interface HomeRepository extends JpaRepository<MLoyaltyCustomer, Integer> {
 
-    @Query(value = "select concat(month(pos_t_transaction_summary.tr_date),'-',day(pos_t_transaction_summary.tr_date)) as date1,\n"
+    @Query(value = "select concat(month(pos_t_transaction_summary.tr_date1),'-',day(pos_t_transaction_summary.tr_date1)) as date1,\n"
             + "round(ifnull(\n"
             + "sum(pos_t_transaction_details.final_value),0.00)) as avarage_income\n"
             + "from pos_t_transaction_summary\n"
             + "left join pos_t_transaction_details on pos_t_transaction_summary.index_no = pos_t_transaction_details.tr_index_no\n"
-            + "where pos_t_transaction_summary.tr_date BETWEEN DATE_SUB(:date, INTERVAL 7 day) and :date \n"
+            + "where pos_t_transaction_summary.tr_date1 BETWEEN DATE_FORMAT(DATE_SUB(:date, INTERVAL 7 DAY),'%Y%m%d')  AND DATE_FORMAT(:date,'%Y%m%d') \n"
             + "and pos_t_transaction_details.tr_det_type = 'Item'\n"
             + "and (:branch = 0 or pos_t_transaction_summary.branch=:branch)\n"
-            + "group by day(pos_t_transaction_summary.tr_date)\n"
-            + "order by pos_t_transaction_summary.tr_date", nativeQuery = true)
+            + "group by day(pos_t_transaction_summary.tr_date1)", nativeQuery = true)
     public List<Object[]> chart1(@Param("branch") Integer branch,@Param("date") String date);
 
     @Query(value = "Select ifnull(sum(tr_final_value),0.00) as total_item_value\n"
@@ -51,9 +50,9 @@ public interface HomeRepository extends JpaRepository<MLoyaltyCustomer, Integer>
             + "  from temp_tr_details \n"
             + "  left join pos_m_item on pos_m_item.barcode=temp_tr_details.bar_code \n"
             + "  Where tr_det_type='Item'\n"
-            + "  and year(tr_date)=year(:date)\n"
+            + "  and year(tr_date1)=year(:date)\n"
             + "  and(:branch = 0 or temp_tr_details.branch=:branch)\n"
-            + "  and month(tr_date)=month(:date)", nativeQuery = true)
+            + "  and month(tr_date1)=month(:date)", nativeQuery = true)
     public BigDecimal uptoDateIncome(@Param("branch") Integer branch,@Param("date") String date);
 
     @Query(value = "Select ifnull(sum(tr_final_value),0.00) as total_item_value\n"
@@ -61,8 +60,8 @@ public interface HomeRepository extends JpaRepository<MLoyaltyCustomer, Integer>
             + "left join pos_m_item on pos_m_item.barcode=temp_tr_details.bar_code \n"
             + "Where tr_det_type='Item'\n"
             + "and(:branch = 0 or temp_tr_details.branch=:branch)\n"
-            + "and year(tr_date)=year(:date)\n"
-            + "and month(tr_date)=month(DATE_SUB(:date, INTERVAL 1 month))", nativeQuery = true)
+            + "and year(tr_date1)=year(DATE_SUB(:date, INTERVAL 1 month))\n"
+            + "and month(tr_date1)=month(DATE_SUB(:date, INTERVAL 1 month))", nativeQuery = true)
     public BigDecimal lastMonthSales(@Param("branch") Integer branch,@Param("date") String date);
 
     @Query(value = "Select pos_m_item.category,\n"
@@ -109,16 +108,16 @@ public interface HomeRepository extends JpaRepository<MLoyaltyCustomer, Integer>
             + "  from pos_t_transaction_summary\n"
             + "  where pos_t_transaction_summary.tr_type='invoice'\n"
              + "  and(:branch = 0 or pos_t_transaction_summary.branch=:branch)\n"
-            + "  and year(pos_t_transaction_summary.tr_date)=year(:date)\n"
-            + "  and month(pos_t_transaction_summary.tr_date)=month(:date)\n"
+            + "  and year(pos_t_transaction_summary.tr_date1)=year(:date)\n"
+            + "  and month(pos_t_transaction_summary.tr_date1)=month(:date)\n"
             + "  ) ,0.00)\n"
             + "as total_item_value\n"
             + "  from temp_tr_details \n"
             + "  left join pos_m_item on pos_m_item.barcode=temp_tr_details.bar_code \n"
             + "  Where tr_det_type='Item'\n"
              + "  and(:branch = 0 or temp_tr_details.branch=:branch)\n"
-            + "  and year(tr_date)=year(:date)\n"
-            + "  and month(tr_date)=month(:date)", nativeQuery = true)
+            + "  and year(tr_date1)=year(:date)\n"
+            + "  and month(tr_date1)=month(:date)", nativeQuery = true)
     public BigDecimal getMonthBasketValue(@Param("branch") Integer branch,@Param("date") String date);
 
 }

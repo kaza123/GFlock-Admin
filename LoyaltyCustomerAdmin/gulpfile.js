@@ -64,10 +64,10 @@ gulp.task('build-js', function () {
         "bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js",
         "bower_components/fastclick/click/fastclick.js",
         "bower_components/angular-filter/dist/angular-filter.js",
-        "bower_components/angular-file-saver/dist/angular-file-saver.js",
         "bower_components/chart.js/dist/Chart.min.js",
         "bower_components/angular-chart.js/dist/angular-chart.min.js",
-        "bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"
+        "bower_components/angular-file-saver/dist/angular-file-saver.min.js",
+        "bower_components/angular-file-saver/dist/angular-file-saver.bundle.min.js"
     ])
             .pipe(debug())
             .pipe(concat('vendor.min.js'))

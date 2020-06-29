@@ -1,0 +1,169 @@
+<div class="col-lg-12 col-md-12 col-xs-12 bg-default-light no-print" style="height: calc(100vh - 433px)">
+    <div class="widget bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <div class="col-lg-6 pl0">
+                <h4 class="no-margin">Sales Unit Detailed Report Branch</h4>
+            </div>
+            <div class="col-lg-6 pl0" style="display: flex">
+                <button class="btn btn-success no-print" ng-click="goFullscreen()"><i class="fa fa-expand"></i></button>
+                <span class=" no-print">Quick Search :</span>
+                <input type="text" class="form-control-2 change-pl-color no-print" placeholder="search" ng-model="search"/>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <div class="widget bg-white no-resize no-margin pb5" style="display: flex" > 
+        <div class="pb5">
+            <i> From Date</i>
+            <input type="date" class="form-control" ng-model="ui.component.fromDate" />
+        </div>
+        <div class="pb5">
+            <i> To Date</i>
+            <input type="date" class="form-control" ng-model="ui.component.toDate" />
+        </div>
+        <div class="pb5">
+            <i> Branch</i>
+            <input type="text" class="form-control" ng-model="ui.component.branch" 
+                   uib-typeahead="branch.branchCode as (branch.branchCode+' - '+branch.name) for branch in model.branchList |filter:$viewValue|limitTo:10" 
+                       typeahead-input-formatter="model.branchLable($model)" 
+                       typeahead-editable="false"/>
+        </div>
+        <div class="pb5">
+            <i>Collection</i>
+            <input type="text" class="form-control" ng-model="ui.component.collection"
+                   uib-typeahead="collection.category as (collection.category) for collection in model.collectionList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.collectionLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb10">
+            <i>Style</i>
+            <input type="text" class="form-control" ng-model="ui.component.style"
+                   uib-typeahead="style as (style.imageCode+' - '+style.category) for style in model.styleList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.styleLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb5">
+            <i> Category</i>
+            <input type="text" class="form-control" ng-model="ui.component.category" 
+                   uib-typeahead="category.category as (category.category) for category in model.categoryList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.categoryLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb5">
+            <i>Sub Category</i>
+            <input type="text" class="form-control" ng-model="ui.component.subCategory"
+                   uib-typeahead="model.subCategory as (model.subCategory) for model in model.subCategoryList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.subCategoryLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb5">
+            <i>Designer</i>
+            <input type="text" class="form-control" ng-model="ui.component.designer"
+                   uib-typeahead="model.designerId as (model.designerId+' - '+model.designerName) for model in model.designerList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="model.designerLable($model)" 
+                   typeahead-editable="false"/>
+        </div>
+        <div class="pb10">
+            <i>&nbsp;</i>
+            <button class="btn btn-primary btn-block" ng-click="ui.getDetail()" >View</button>
+        </div>
+        <div class="pb2">
+            <i>&nbsp;</i>
+            <button class="btn btn-success btn-block" ng-click="ui.print()" >Print</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 col-md-12 col-xs-12 bg-default-light" style="height: calc(100vh - 260px)">
+    <div class="smart-scroll-y smart-scroll-x" id="fullScreen" style="height: calc(100vh - 250px);">
+        <div class="bg-white no-padding" id="printDiv" ng-show="model.data.length && !ui.gifShow"> 
+            <div class="col-lg-12" ng-show="false">
+                <table class="table">
+                    <thead>
+                    <th style="font-size: 24px;" class="text-center">Sales Unit Detailed Report Branch</th>
+                    </thead>
+                </table>
+                <table class="col-lg-12"> 
+                    <tbody>
+                        <tr> 
+                            <td style="width: 33.3%">From Date : {{ui.component.fromDate | date:'yyyy-MM-dd'}}</td>
+                            <td style="width: 33.3%">To Date : {{ui.component.toDate | date:'yyyy-MM-dd'}}</td>
+                            <td style="width: 33.3%">Collection : {{ui.component.collection}}</td>
+                        </tr>
+                        <tr> 
+                            <td style="width: 33.3%">Style : {{ui.component.style.imageCode}}</td>
+                            <td style="width: 33.3%">Category : {{ui.component.category}}</td>
+                            <td style="width: 33.3%">Sub Category : {{ui.component.subCategory}}</td>
+                        </tr>
+                        <tr> 
+                            <td style="width: 33.3%">Designer : {{model.designerLable(ui.component.designer)}}</td>
+                            <td style="width: 33.3%">Branch : {{model.branchLable(ui.component.branch)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+            <table class="table mb0 table-hover table-striped table-bordered"> 
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th style="min-width: 150px;">Collection </th>
+                        <th>Department</th>
+                        <th>Sub Category</th>
+                        <th style="min-width: 100px;">Style</th>
+                        <th class="text-right">Branch</th>
+                        <th class="text-right">Grn Qty</th>
+                        <th class="text-right">Sales Qty</th>
+                        <th class="text-right">Total Sales %</th>
+                        <th class="text-right">Balance</th>
+                        <th class="text-right">Balance %</th>
+                        <th class="text-right">1W</th>
+                        <th class="text-right">1W %</th>
+                        <th class="text-right">1M</th>
+                        <th class="text-right">1M %</th>
+                        <th class="text-right">2W</th>
+                        <th class="text-right">2W %</th>
+                        <th class="text-right">3W</th>
+                        <th class="text-right">3W %</th>
+                        <th class="text-right">Sales Qty</th>
+                        <th class="text-right">Total Sales %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="font-size: 10px" ng-repeat="data in model.data"> 
+                        <td>{{data[1]}}</td>
+                        <td>{{data[2]}}</td>
+                        <td>{{data[3]}}</td>
+                        <td>{{data[4]}}</td>
+                        <td ><b>{{data[5]}}</b></td>
+                        <td class="text-right">{{data[6]}}</td>
+                        <td class="text-right">{{data[8]}}</td>
+                        <td class="text-right">{{data[9]}}</td>
+                        <td class="text-right">{{data[8]?(data[9]/data[8])*100:0 | number:2}}</td>
+                        <td class="text-right">{{data[8]-data[9]}}</td>
+                        <td class="text-right">{{data[8]?((data[8]-data[9])/data[8])*100:0 | number:2}}</td>
+                        <td class="text-right">{{data[10]}}</td>
+                        <td class="text-right">{{data[10]?(data[10]/data[8])*100:0 | number:2}}</td>
+                        <td class="text-right">{{data[11]}}</td>
+                        <td class="text-right">{{data[11]?(data[11]/data[8])*100:0 | number:2}}</td>
+                        <td class="text-right">{{data[12]}}</td>
+                        <td class="text-right">{{data[12]?(data[12]/data[8])*100:0 | number:2}}</td>
+                        <td class="text-right">{{data[13]}}</td>
+                        <td class="text-right">{{data[13]?(data[13]/data[8])*100:2 | number:2}}</td>
+                        <td class="text-right">{{data[9]}}</td>
+                        <td class="text-right">{{data[8]?(data[9]/data[8])*100:0 | number:2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="widget bg-white" ng-hide="model.data.length || ui.gifShow">
+            Empty.. Try Again
+        </div>
+        <div class="widget bg-white text-center mb0" ng-show="ui.gifShow" style="height: calc(100vh - 277px);">
+            <img src="../../../images/loading_gif.gif" width="256" height="256" alt="loading_gif" class="pt30"/>
+        </div>
+    </div>
+</div>

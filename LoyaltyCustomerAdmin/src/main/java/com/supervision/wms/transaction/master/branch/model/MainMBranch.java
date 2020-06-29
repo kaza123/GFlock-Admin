@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -57,11 +56,14 @@ public class MainMBranch implements Serializable{
 
     @Column(name = "type2")
     private String type2;
+   
+    @Column(name = "is_dashboard")
+    private Integer isDashboard;
 
     public MainMBranch() {
     }
 
-    public MainMBranch(String branchCode, String name, String type, String findGroup, String addressLine1, String addressLine2, String addressLine3, String telephoneNumber, String color, String type2) {
+    public MainMBranch(String branchCode, String name, String type, String findGroup, String addressLine1, String addressLine2, String addressLine3, String telephoneNumber, String color, String type2, Integer isDashboard) {
         this.branchCode = branchCode;
         this.name = name;
         this.type = type;
@@ -72,6 +74,7 @@ public class MainMBranch implements Serializable{
         this.telephoneNumber = telephoneNumber;
         this.color = color;
         this.type2 = type2;
+        this.isDashboard = isDashboard;
     }
 
     public Integer getIndexNo() {
@@ -161,5 +164,14 @@ public class MainMBranch implements Serializable{
     public void setType2(String type2) {
         this.type2 = type2;
     }
+
+    public Integer getIsDashboard() {
+        return isDashboard;
+    }
+
+    public void setIsDashboard(Integer isDashboard) {
+        this.isDashboard = isDashboard;
+    }
+
     
 }
