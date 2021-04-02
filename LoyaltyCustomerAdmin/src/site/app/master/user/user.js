@@ -82,10 +82,19 @@
                     } else if (!$scope.model.user.reEnterPassword) {
                         Notification.error("Please Input Re-Enter Password !!!");
                         return false;
+                    } else if (!$scope.model.user.type) {
+                        Notification.error("Please Input User Type!!!");
+                        return false;
+                    } else if (!$scope.model.user.department) {
+                        Notification.error("Please Input User Department !!!");
+                        return false;
+                    } else if (!$scope.model.user.employee) {
+                        Notification.error("Please Input User Descripton !!!");
+                        return false;
                     } else if ($scope.model.user.password !== $scope.model.user.reEnterPassword) {
                         Notification.error("Password Not Match !!!");
                         return false;
-                    } else if ($scope.model.user.userName && $scope.model.user.password) {
+                    } else if ($scope.model.user.userName && $scope.model.user.password && $scope.model.user.type && $scope.model.user.department && $scope.model.user.employee) {
                         return true;
                     }
                 };

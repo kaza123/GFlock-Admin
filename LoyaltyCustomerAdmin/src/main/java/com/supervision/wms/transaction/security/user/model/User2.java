@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class User2 implements Serializable{
     private Integer indexNo;
     private Integer branch;
-    private Integer adminBranch;
     private String name;
     private String userName;
     private String password;
@@ -23,10 +22,9 @@ public class User2 implements Serializable{
     public User2() {
     }
 
-    public User2(Integer indexNo, Integer branch, Integer adminBranch, String name, String userName, String password, String type) {
+    public User2(Integer indexNo, Integer branch, String name, String userName, String password, String type) {
         this.indexNo = indexNo;
         this.branch = branch;
-        this.adminBranch = adminBranch;
         this.name = name;
         this.userName = userName;
         this.password = password;
@@ -47,14 +45,6 @@ public class User2 implements Serializable{
 
     public void setBranch(Integer branch) {
         this.branch = branch;
-    }
-
-    public Integer getAdminBranch() {
-        return adminBranch;
-    }
-
-    public void setAdminBranch(Integer adminBranch) {
-        this.adminBranch = adminBranch;
     }
 
     public String getName() {

@@ -96,8 +96,8 @@
                                         $scope.ui.detailQty = 0;
                                         $scope.ui.detailValue = 0;
                                         angular.forEach(data, function (data) {
-                                            $scope.ui.detailQty += parseFloat(data[11]);
-                                            $scope.ui.detailValue += parseFloat(data[12]);
+                                            $scope.ui.detailQty += data[9];
+                                            $scope.ui.detailValue += data[10];
                                         });
                                         $scope.ui.gifShow = false;
 

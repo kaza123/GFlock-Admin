@@ -5,7 +5,6 @@
  */
 package com.supervision.wms.transaction.security.user;
 
-import com.supervision.wms.transaction.security.user.model.UpdateUser;
 import com.supervision.wms.transaction.security.user.model.User;
 import com.supervision.wms.transaction.security.user.model.User2;
 import java.util.List;
@@ -32,15 +31,8 @@ public class UserController {
 
     @RequestMapping(value = "/save-user", method = RequestMethod.POST)
     public User saveUser(@RequestBody User user) {
-//        user.setBranch(1);
+        user.setBranch(1);
         return userService.saveUser(user);
-    }
-    @RequestMapping(value = "/update-user-password", method = RequestMethod.POST)
-    public int updateUserPassword(@RequestBody UpdateUser user) {
-        System.out.println(user.getUserName());
-        System.out.println(user.getPassword());
-        System.out.println(user.getNewPassword());
-        return userService.updateUserPassword(user);
     }
 
     @RequestMapping(value = "/delete-user/{indexNo}", method = RequestMethod.DELETE)

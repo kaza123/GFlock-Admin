@@ -51,7 +51,7 @@
                 <button class="btn btn-primary btn-block" ng-click="ui.getDetail()" >View</button>
             </div>
             <div class="pb2">
-                <button class="btn btn-success btn-block" ng-click="ui.print('printDiv')" >Print</button>
+                <button class="btn btn-success btn-block" ng-click="ui.print()" >Print</button>
             </div>
         </div>
     </div>
@@ -110,7 +110,6 @@
                         <th style="width: 16%">Description</th>
                         <th style="width: 16%">Category</th>
                         <th style="width: 16%">Sub Category</th>
-                        <th style="width: 16%">Collection No</th>
                         <th style="width: 10%" class="text-right">Qty(-)</th>
                         <th style="width: 10%" class="text-right">Qty(+)</th>
                     </tr>
@@ -126,8 +125,7 @@
                             <td style="width: 16%">{{data[1]}}</td>
                             <td style="width: 16%">{{data[2]}}</td>
                             <td style="width: 16%">{{data[3]}}</td>
-                            <td style="width: 16%">{{data[6]}}</td>
-                            <td style="width: 10%" class="text-right">{{data[8]}}</td>
+                            <td style="width: 10%" class="text-right">{{data[7]}}</td>
                             <td style="width: 10%" class="text-right">{{data[4]}}</td>
                         </tr>
                     </tbody>
@@ -170,7 +168,7 @@
     </span>
     </div>
     <div class="panel-body smart-scroll-y " style="max-height: calc(100vh - 222px)">
-    <table class="table mb0 table-hover " id="printPopupDiv"> 
+    <table class="table mb0 table-hover "> 
     <thead>
     <tr>
     <th style="width: 15%">Barcode</th>
@@ -234,7 +232,6 @@
     </tr>
     </tbody>
     </table>
-    <input type="button" class="btn btn-primary" style="width: 100px" value="PRINT" ng-click="ui.print('printPopupDiv')"/>
     </div>
     </div>
     </div>

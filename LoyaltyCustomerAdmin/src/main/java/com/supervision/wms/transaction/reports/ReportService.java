@@ -14,9 +14,7 @@ import com.supervision.wms.transaction.reports.model.MSystemDetail;
 import com.supervision.wms.transaction.reports.model.MSystemMix;
 import com.supervision.wms.transaction.reports.model.PaymentSummary;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -252,7 +250,6 @@ public class ReportService {
     }
 
     public List<Object[]> itemWiseGrn(MItemWiseGrn itemWiseGrn) {
-        System.out.println("Service "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         if (null == itemWiseGrn.getFromDate() || "".equals(itemWiseGrn.getFromDate())) {
             throw new RuntimeException("fromDate is required !");
         }
@@ -260,7 +257,7 @@ public class ReportService {
             throw new RuntimeException("toDate is required !");
         }
 
-        List<Object[]> itemWiseGrn1 = reportRepository.itemWiseGrn(
+        return reportRepository.itemWiseGrn(
                 itemWiseGrn.getFromDate(),
                 itemWiseGrn.getToDate(),
                 itemWiseGrn.getBranch(),
@@ -271,9 +268,6 @@ public class ReportService {
                 itemWiseGrn.getTransactionNo(),
                 itemWiseGrn.getSupplier()
         );
-        
-        System.out.println(itemWiseGrn1.size()+" service SIZE "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        return itemWiseGrn1;
     }
 
     public HashMap<String, BigDecimal> paymentSummary(PaymentSummary paymentSummary) {
@@ -350,7 +344,6 @@ public class ReportService {
         }
         return reportRepository.getCategoryWise(fromDate, toDate, branch, category, style);
     }
-
     public List<Object[]> categoryWiseGrn(String fromDate, String toDate, String branch, String category, String style) {
         if (null == fromDate || "".equals(fromDate)) {
             throw new RuntimeException("fromDate is required !");
@@ -386,11 +379,11 @@ public class ReportService {
         MSystemMix mix = new MSystemMix();
         ArrayList<Object[]> styleList = reportRepository.styleList(collection, style, category);
         System.out.println("%%%%%%%%%%%%%%%");
-        System.out.println("styleList size " + styleList.size());
+        System.out.println("styleList size "+styleList.size());
         System.out.println("%%%%%%%%%%%%%%%");
         ArrayList<Object[]> branchList = reportRepository.branchList();
         System.out.println("%%%%%%%%%%%%%%%");
-        System.out.println("branchList size " + branchList.size());
+        System.out.println("branchList size "+branchList.size());
         System.out.println("%%%%%%%%%%%%%%%");
         ArrayList<MSystemDetail> detailList = new ArrayList<>();
 
@@ -412,10 +405,10 @@ public class ReportService {
             for (Object[] branch : branchList) {
                 ArrayList<Object[]> detailListListSub = reportRepository.getDetail(color[0].toString(), color[1].toString(), branch[0].toString(), fromDate, toDate, category, color[3].toString());
                 System.out.println("%%%%%%%%%%%%%%%");
-                System.out.println(color[0].toString() + " - " + color[1].toString() + " - " + branch[0].toString() + " - " + fromDate + " - " + toDate + " - " + category + " - " + color[3].toString());
-                System.out.println("detailListListSub " + detailListListSub.size());
+                System.out.println(color[0].toString()+" - "+ color[1].toString()+" - "+ branch[0].toString()+" - "+ fromDate+" - "+ toDate+" - "+ category+" - "+ color[3].toString());
+                System.out.println("detailListListSub "+detailListListSub.size());
                 System.out.println("%%%%%%%%%%%%%%%");
-
+                
                 MSystemDetail systemDetail = new MSystemDetail();
                 //empty data set
                 systemDetail.setStyle(color[0].toString());
@@ -497,8 +490,8 @@ public class ReportService {
                 systemDetail.setPreviousOutQty(previousSoldQty);
                 previousSum += previousSoldQty;
 
-                System.out.println("color[4].toString() " + color[4].toString());
-                System.out.println("color[1].toString() " + color[1].toString());
+                System.out.println("color[4].toString() " +color[4].toString());
+                System.out.println("color[1].toString() " +color[1].toString());
                 Integer cutQty = reportRepository.getCutQty(color[4].toString(), color[1].toString());
                 systemDetail.setCutQty(cutQty);
                 detailList.add(systemDetail);
@@ -552,8 +545,7 @@ public class ReportService {
         String subCategory = mkpi.getSubCategory();
         String designer = mkpi.getDesigner();
         List<Object[]> list = reportRepository.getBasicKPI(collection, fromDate, toDate, style, category, subCategory, designer);
-        System.out.println("list size");
-        System.out.println(list.size());
+
         list.forEach((object) -> {
             Integer costingId = Integer.parseInt(object[0].toString());
             String collectionDate = object[1].toString();
@@ -639,26 +631,26 @@ public class ReportService {
             String date1 = object[2].toString();
             String collection1 = object[3].toString();
             String style1 = object[5].toString();
-
-            object[6] = reportRepository.getOrderQtyDesigner(designer1, style1);
-            object[7] = reportRepository.getCutQtyDesigner(designer1, style1);
-            object[8] = reportRepository.getGRNQtyForDesigner(designer1, style1);
-            object[9] = reportRepository.getSalesQtyForDesigner(designer1, style1);
-            object[10] = reportRepository.get1WForDesigner(designer1, style1, date1);
-            object[11] = reportRepository.get1MForDesigner(designer1, style1, date1);
-            object[12] = reportRepository.get2MForDesigner(designer1, style1, date1);
-            object[13] = reportRepository.get3MForDesigner(designer1, style1, date1);
-
+            
+            object[6] = reportRepository.getOrderQtyDesigner(designer1,style1);
+            object[7] = reportRepository.getCutQtyDesigner(designer1,style1);
+            object[8] = reportRepository.getGRNQtyForDesigner(designer1,style1);
+            object[9] = reportRepository.getSalesQtyForDesigner(designer1,style1);
+            object[10] = reportRepository.get1WForDesigner(designer1,style1, date1);
+            object[11] = reportRepository.get1MForDesigner(designer1,style1, date1);
+            object[12] = reportRepository.get2MForDesigner(designer1,style1, date1);
+            object[13] = reportRepository.get3MForDesigner(designer1,style1, date1);
+            
         });
         return list;
     }
 
     public List<Object[]> ipgReport(MIPGReport param) {
-
+        
         String fromDate = param.getfDate();
         String toDate = param.gettDate();
-
-        return reportRepository.ipgReoprt(fromDate, toDate);
+        
+         return reportRepository.ipgReoprt(fromDate,toDate);
     }
 
     List<Object[]> hourlyReport(MHourlyReport param) {
@@ -666,13 +658,9 @@ public class ReportService {
         String fTime = param.getfTime();
         String tTime = param.gettTime();
         int branch = param.getBranch();
-        String fromDateTime = fromDate + " " + fTime;
-        String toDateTime = fromDate + " " + tTime;
-        System.out.println("from date " + fromDateTime);
-        System.out.println("to date " + toDateTime);
-
-        return reportRepository.hourlyReport(fromDateTime, toDateTime, branch);
-
+        
+     return reportRepository.hourlyReport(fromDate,fTime,tTime,branch);
+        
     }
 
 }

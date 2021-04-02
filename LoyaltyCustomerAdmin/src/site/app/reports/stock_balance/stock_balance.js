@@ -61,8 +61,6 @@
                         'description': null
                     };
                     $scope.ui.gifShow = true;
-                    console.log("getDetail,JSON.stringify(model)");
-                    console.log(getDetail,JSON.stringify(model));
                     Factory.save(getDetail, JSON.stringify(model),
                             function (data) {
                                 if (data) {
@@ -74,20 +72,19 @@
                                     $scope.ui.detailQtyMinus = 0;
                                     angular.forEach($scope.model.data, function (data) {
                                         $scope.ui.detailCount++;
-                                        data[8] = 0;
+                                        data[7] = 0;
                                         data[0] = data[0].trim();
                                         data[1] = data[1].trim();
                                         data[2] = data[2].trim();
                                         data[3] = data[3].trim();
                                         data[5] = data[5].trim();
-                                        data[7] = data[7].trim();
 
                                         if (data[4] < 0) {
-                                            data[8] = data[4] * -1; 
+                                            data[7] = data[4] * -1;
                                             data[4] = 0;
                                         }
                                         $scope.ui.detailQty += data[4];
-                                        $scope.ui.detailQtyMinus += data[8];
+                                        $scope.ui.detailQtyMinus += data[7];
                                     });
 
                                     $scope.ui.gifShow = false;
@@ -104,16 +101,15 @@
                 $scope.ui.modelCancel = function () {
                     $uibModalStack.dismissAll();
                 };
-                $scope.ui.print = function (id) {
-                    console.log('id');
-                    console.log(id);
+                $scope.ui.print = function () {
+
                     PrintPane.printConfirm("")
                             .confirm(function () {
                                 console.log('print pdf');
-                                $scope.printService.printPdf(id);
+                                $scope.printService.printPdf('printDiv');
                             })
                             .discard(function () {
-                                $scope.printService.printExcel(id, 'Stock_Balance');
+                                $scope.printService.printExcel('printDiv', 'Stock_Balance');
                             });
                 };
                 $scope.ui.viewModel = function (data) {
