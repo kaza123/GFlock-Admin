@@ -127,6 +127,15 @@
                             templateUrl: "app/reports/hourly_report/hourly_report.html",
                             controller: "hourlyReportController"
                         })
+                        // transaction
+//                        .when("/price_change", {
+//                            templateUrl: "app/transaction/price_change/price_change.html",
+//                            controller: "PriceChangeController"
+//                        })
+                        .when("/profile", {
+                            templateUrl: "app/master/user_profile/user_profile.html",
+                            controller: "UserProfileController"
+                        })
                         .otherwise({
                             redirectTo: "/"
                         });
@@ -170,6 +179,9 @@
                     $rootScope.value = null;
                     $rootScope.globals = {};
                     $location.path("/");
+                };
+                $scope.profile = function () {
+                    $location.path("/profile");
                 };
                 $scope.ui.CliclLevel1 = function (name) {
                     $rootScope.level.one = name;

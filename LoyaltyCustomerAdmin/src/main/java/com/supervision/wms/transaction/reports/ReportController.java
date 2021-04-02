@@ -19,6 +19,8 @@ import com.supervision.wms.transaction.reports.model.MTransactionSummary;
 import com.supervision.wms.transaction.reports.model.PaymentSummary;
 import com.supervision.wms.transaction.reports.model.TGrnSummary;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,12 @@ public class ReportController {
     } 
     @RequestMapping(value = "/item-wise_grn" , method = RequestMethod.POST)
     public List<Object[]> itemWise(@RequestBody MItemWiseGrn itemWiseGrn){
-        return reportService.itemWiseGrn(itemWiseGrn);
+        
+        System.out.println("Controller "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        List<Object[]> itemWiseGrn1 = reportService.itemWiseGrn(itemWiseGrn);
+        
+        System.out.println(itemWiseGrn1.size()+" controller SIZE "+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        return itemWiseGrn1;
     } 
     @RequestMapping(value = "/system_sale" , method = RequestMethod.POST)
     public MSystemMix systemSales(@RequestBody MSystemSale systemSale){

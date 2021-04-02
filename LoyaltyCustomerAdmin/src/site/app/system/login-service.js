@@ -46,7 +46,7 @@ angular.module('AppModule')
                 ;
             };
 
-            service.SetCredentials = function (username, password, type, indexno, branch) {
+            service.SetCredentials = function (username, password, type, indexno, branch,adminBranch) {
                 var authdata = btoa(username + ":" + password); //$base64.encode(username + ':' + password);
 
                 $rootScope.globals = {
@@ -55,7 +55,8 @@ angular.module('AppModule')
                         authdata: authdata,
                         type: type,
                         indexNo: indexno,
-                        branch: branch
+                        branch: branch,
+                        adminBranch: adminBranch
                     }
                 };
 

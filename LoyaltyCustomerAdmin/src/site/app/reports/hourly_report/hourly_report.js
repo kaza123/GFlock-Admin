@@ -27,11 +27,11 @@
                     tTime: null
                 };
 
-                $scope.ui.detailCount = 0;
-                $scope.ui.stockQty = 0;
-                $scope.ui.inQty = 0;
-                $scope.ui.outQty = 0;
-                $scope.ui.balanceQty = 0;
+                $scope.ui.qty = 0;
+                $scope.ui.final_value = 0;
+                $scope.ui.disc_value = 0;
+                $scope.ui.discounted_value = 0;
+                $scope.ui.bal_qty = 0;
 
                 var getDetail = "/api/sv/reports/hourly-report";
                 var getBranches = "/api/sv/master/branch/find-sales-branch";
@@ -55,28 +55,33 @@
                         check = false;
                         Notification.error("To Time is required !");
                     }
+                    if (!detail.branch) {
+                        check = false;
+                        Notification.error("Branch is required !");
+                    }
                     if (check) {
 
                         $scope.ui.gifShow = true;
                         console.log('data');
                         console.log(detail);
                         Factory.save(getDetail, JSON.stringify(detail),
-                                function (data) {
-                                    if (data) {
-                                        $scope.model.data = data;
+                                function (respond) {
+                                    if (respond) {
+                                        $scope.model.data = respond;
                                         console.log('respond');
-                                        console.log(data);
-                                        $scope.ui.stockQty = 0;
-                                        $scope.ui.inQty = 0;
-                                        $scope.ui.outQty = 0;
-                                        $scope.ui.balanceQty = 0;
+                                        console.log(respond);
+                                        $scope.ui.qty = 0;
+                                        $scope.ui.final_value = 0;
+                                        $scope.ui.disc_value = 0;
+                                        $scope.ui.discounted_value = 0;
+                                        $scope.ui.bal_qty = 0;
 
-                                        angular.forEach(data, function (data) {
-                                            console.log(data[2] , data[3] , data[4]);
-                                            $scope.ui.stockQty += data[2];
-                                            $scope.ui.inQty += data[3];
-                                            $scope.ui.outQty += data[4];
-                                            $scope.ui.balanceQty += (data[2] + data[3] - data[4]);
+                                        angular.forEach(respond, function (data) {
+                                            $scope.ui.qty += data[3];
+                                            $scope.ui.final_value += data[4];
+                                            $scope.ui.disc_value += data[5];
+                                            $scope.ui.discounted_value += data[6];
+                                            $scope.ui.bal_qty += data[8];
                                         });
 
                                         $scope.ui.gifShow = false;
@@ -94,16 +99,18 @@
 
                 $scope.$watch("search", function (query) {
                     $scope.filteredData = $filter("filter")($scope.model.data, query);
-                    $scope.ui.stockQty = 0;
-                    $scope.ui.inQty = 0;
-                    $scope.ui.outQty = 0;
-                    $scope.ui.balanceQty = 0;
+                    $scope.ui.qty = 0;
+                    $scope.ui.final_value = 0;
+                    $scope.ui.disc_value = 0;
+                    $scope.ui.discounted_value = 0;
+                    $scope.ui.bal_qty = 0;
 
                     angular.forEach(filteredData, function (data) {
-                        $scope.ui.stockQty += data[2];
-                        $scope.ui.inQty += data[3];
-                        $scope.ui.outQty += data[4];
-                        $scope.ui.balanceQty += (data[2] + data[3] - data[4]);
+                        $scope.ui.qty += data[3];
+                        $scope.ui.final_value += data[4];
+                        $scope.ui.disc_value += data[5];
+                        $scope.ui.discounted_value += data[6];
+                        $scope.ui.bal_qty += data[8];
                     });
                 });
                 $scope.ui.modelCancel = function () {

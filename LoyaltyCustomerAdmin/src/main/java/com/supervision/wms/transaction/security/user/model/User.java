@@ -39,17 +39,21 @@ public class User implements Serializable {
     
     @Column(name = "password")
     private String password;
+    
+    @Column(name = "admin_branch")
+    private Integer adminBranch;
 
     
     public User() {
     }
 
-    public User(Integer indexNo, Integer branch, String name, String userName, String password) {
+    public User(Integer indexNo, Integer branch, String name, String userName, String password, Integer adminBranch) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
         this.userName = userName;
         this.password = password;
+        this.adminBranch = adminBranch;
     }
 
     public Integer getIndexNo() {
@@ -92,8 +96,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-   
+    public Integer getAdminBranch() {
+        return adminBranch;
+    }
 
-   
+    public void setAdminBranch(Integer adminBranch) {
+        this.adminBranch = adminBranch;
+    }
 
+    
 }
