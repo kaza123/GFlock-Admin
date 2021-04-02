@@ -22,7 +22,7 @@
                        typeahead-input-formatter="model.branchLable($model)" 
                        typeahead-editable="false"/>
             </div>
-             <div class="pb5">
+            <div class="pb5">
                 <i> From Time</i>
                 <input class="form-control" type="time" ng-model="ui.component.fromTime" > 
             </div>
@@ -63,17 +63,17 @@
             <div class="col-lg-12" ng-show="false">
                 <table class="table">
                     <thead>
-                    <th style="font-size: 24px;" class="text-center">Category Wise Sale</th>
+                    <th style="font-size: 24px;" class="text-center">Sales Details (SIZE WISE)</th>
                     </thead>
                 </table>
 
                 <table class="col-lg-12"> 
                     <tbody>
                         <tr> 
-                            <td style="width: 25%">Date : {{ui.component.fDate}}</td>
                             <td style="width: 25%">Branch : {{model.branchLable(ui.component.branch)}}</td>
-                            <td style="width: 25%">From Time : {{ui.component.fromTime}}</td>
-                            <td style="width: 25%">To Time : {{ui.component.toTime}}</td>
+                            <td style="width: 25%">Date : {{ui.component.fDate}}</td>
+                            <td style="width: 25%">From Time : {{ui.component.fromTime| date:'HH:mm:ss a'}}</td>
+                            <td style="width: 25%">To Time : {{ui.component.toTime| date:'HH:mm:ss a'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -82,25 +82,44 @@
             <table class="table mb0 table-hover"  style="width: 100%"> 
                 <thead>
                     <tr>
-                        <th style="width: 20%" >Barcode</th>
-                        <th style="width: 40%" >Description</th>
-                        <th style="width: 10%" class="text-right">Open Stock</th>
-                        <th style="width: 10%" class="text-right">In Qty</th>
-                        <th style="width: 10%" class="text-right">Out Qty</th>
-                        <th style="width: 10%" class="text-right">Balance Qty</th>
+                        <th style="width: 10%" >Barcode</th>
+                        <th style="width: 20%" >Description</th>
+                        <th style="width: 10%" >Old Barcode</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Balance Stock</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Qty</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Unit Price</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Gross Sale</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Discount</th>
+                        <th style="width: 10%;text-align: right" class="text-right">Net Sale</th>
                     </tr>
                 </thead>
             </table>
             <div class="smart-scroll-y" style="height: calc(100vh  - 267px)">
                 <table class="table mb0 table-hover"  style="width: 100%"> 
                     <tbody>
-                        <tr style="font-size: 10px" ng-repeat="data in model.data| filter:search as filtered"> 
-                            <td style="width: 20%">{{data[0]}}</td>
-                            <td style="width: 40%">{{data[1]}}</td>
-                            <td style="width: 10%" class="text-right">{{data[2] | number:2}}</td>
-                            <td style="width: 10%" class="text-right">{{data[3] | number:2}}</td>
-                            <td style="width: 10%" class="text-right">{{data[4] | number:2}}</td>
-                            <td style="width: 10%" class="text-right">{{(data[2]+data[3]-data[4]) | number:2}}</td>
+                        <tr ng-repeat="data in model.data| filter:search as filtered"> 
+                            <td style="width: 10%" >{{data[0]}}</td>
+                            <td style="width: 20%" >{{data[2]}}</td>
+                            <td style="width: 10%" >{{data[1]}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right" >{{data[8]}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right" >{{data[3]}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right" >{{data[7]| number:2}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right"  >{{data[4]| number:2}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right"  >{{data[5]| number:2}}</td>
+                            <td style="width: 10%;text-align: right" class="text-right"  >{{data[6]| number:2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table mb0 "> 
+                    <tbody>
+                        <tr>
+                            <td style="width: 40%">Style Count : {{filtered.length}}</td>
+                            <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.bal_qty| number:2}}</label> </td>
+                            <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.qty| number:2}}</label> </td>
+                            <td style="width: 10%; padding-right: 35px" class="text-right"></td>
+                            <td style="width: 10%; padding-right: 32px" class="text-right"><label class="label label-warning">{{ui.final_value| number:2}}</label> </td>
+                            <td style="width: 10%; padding-right: 32px" class="text-right"><label class="label label-warning">{{ui.disc_value| number:2}}</label> </td>
+                            <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.discounted_value| number:2}}</label> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,155 +132,4 @@
             <img src="../../../images/loading_gif.gif" width="256" height="256" alt="loading_gif" class="pt30"/>
         </div>
     </div>
-    <div ng-show="model.data.length">
-        <table class="table mb0 "> 
-            <tbody>
-                <tr>
-                    <td style="width: 60%">Style Count : {{filtered.length}}</td>
-                    <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.stockQty | number:2}}</label> </td>
-                    <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.inQty | number:2}}</label> </td>
-                    <td style="width: 10%; padding-right: 35px" class="text-right"><label class="label label-success">{{ui.outQty | number:2}}</label> </td>
-                    <td style="width: 10%; padding-right: 32px" class="text-right"><label class="label label-warning">{{ui.balanceQty | number:2}}</label> </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
 </div>
-
-<script type="text/ng-template" id="model.html">
-    <div class="panel panel-primary mb0">
-    <div class="panel-heading ">
-    <div class="col-md-1 col-xs-1">&nbsp</div>
-    <h5 class="modal-title text-center h3 col-md-10 col-xs-10" ><b>{{model.dataSelected[4]}} - {{model.dataSelected[2]}}</b></h5>
-    <span aria-hidden="true" 
-    class="pull-right col-md-1 col-xs-1 bold text-danger text-right h5"
-    ng-click="ui.modelCancel()"
-    style="cursor: pointer;">X
-    </span>
-    </div>
-    <div class="panel-body smart-scroll-y " style="max-height: calc(100vh - 130px)">
-    <!--invoice Details-->
-    <table class="table mb0 table-hover "> 
-    <thead>
-    <tr>
-    <th style="width: 10%">Type</th>
-    <th style="width: 10%">Barcode</th>
-    <th style="width: 20%">Description</th>
-    <th style="width: 10%">Category</th>
-    <th style="width: 10%">Style</th>
-    <th style="width: 7%" class="text-right">Qty</th>
-    <th style="width: 7%" class="text-right">Price</th>
-    <th style="width: 7%" class="text-right">Value</th>
-    <th style="width: 7%" class="text-right">Disc</th>
-    <th style="width: 10%" class="text-right">Final Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr style="font-size: 11px" ng-repeat="sub in model.dataSub">
-    <td style="width: 10%" class="text-center" ng-show="sub[0] === 'Item'"><span class="label bg-primary">{{sub[0]}}</span></td>
-    <td style="width: 10%" class="text-center" ng-show="sub[0] === 'Gift'"><span class="label bg-dark">{{sub[0]}}</span></td>
-    <td style="width: 10%" class="text-center" ng-show="sub[0] === 'Return'"><span class="label bg-warning">{{sub[0]}}</span></td>
-    <td style="width: 10%">{{sub[1]}}</td>
-    <td style="width: 20%">{{sub[2]}}</td>
-    <td style="width: 10%">{{sub[3]}}</td>
-    <td style="width: 10%">{{sub[4]}}</td>
-    <td style="width: 7%" class="text-right">{{sub[5]}}</td>
-    <td style="width: 7%" class="text-right">{{sub[6]}}</td>
-    <td style="width: 7%" class="text-right">{{sub[7]}}</td>
-    <td style="width: 7%" class="text-right">{{sub[8]}}</td>
-    <td style="width: 10%" class="text-right">{{sub[9]}}</td>
-    </tr>
-
-    </tbody>
-    </table>
-
-    <!--total-->
-    <table class="table mb0 table-hover "> 
-    <tbody>
-    <tr style="font-size: 11px">
-    <td style="width: 10%" ></td>
-    <td style="width: 10%" ></td>
-    <td style="width: 20%"></td>
-    <td style="width: 10%"></td>
-    <td style="width: 10%"></td>
-    <td style="width: 7%" class="text-right">{{ui.count(5)}}</td>
-    <td style="width: 7%" class="text-right">{{ui.count(6)}}</td>
-    <td style="width: 7%" class="text-right">{{ui.count(7)}}</td>
-    <td style="width: 7%" class="text-right">{{ui.count(8)}}</td>
-    <td style="width: 10%" class="text-right">{{ui.count(9)}}</td>
-    </tr>
-    </tbody>
-    </table>
-
-    <!--        payment sum-->
-    <div class="panel panel-bordered panel-success" ng-hide="model.dataSelected[4]==='return'">
-    <div class="panel-heading text-center">
-    Payment Summary
-    </div>
-    <div class="panel-body">
-    <table class="table mb0 table-hover "> 
-    <thead>
-    <tr class="bt">
-    <th style="width: 13%" class="text-right">Inv amount</th>
-    <th style="width: 10%" class="text-right">Disc %</th>
-    <th style="width: 10%" class="text-right">Disc</th>
-    <th style="width: 10%" class="text-right">Final</th>
-    <th style="width: 10%" class="text-right">Payed</th>
-    <th style="width: 13%" class="text-right">Bal Return</th>
-    <th style="width: 10%" class="text-left">C.N No</th>
-    <th style="width: 10%" class="text-right">C.N Amount</th>
-    <th style="width: 13%" class="text-right">Ignore Amount</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr style="font-size: 11px" ng-repeat="payment in model.paymentDetail| limitTo:1">
-    <td style="width: 10%" class="text-right">{{payment[0]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[1]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[2]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[3]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[4]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[5]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[6]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[7]}}</td>
-    <td style="width: 10%" class="text-right">{{payment[8]}}</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-    </div>
-    <div class="panel panel-bordered panel-success col-lg-8 no-padding" ng-hide="model.dataSelected[4]==='return'">
-    <div class="panel-heading text-center">
-    Payment Detail
-    </div>
-    <div class="panel-body">
-    <table class="table mb0 table-hover"> 
-    <thead>
-    <tr>
-    <th style="width: 25%" class="text-center" >Payment Type</th>
-    <th style="width: 25%" >Reference No</th>
-    <th style="width: 25%" class="text-right">Payment Amount</th>
-    <th style="width: 25%" >Machine No</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr style="font-size: 11px" ng-repeat="payment in model.paymentDetail">
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'VISA'"><span class="label bg-success">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'MASTER'"><span class="label bg-primary">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'GV'"><span class="label bg-default">{{payment[9]}}</span>}</td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'FRIMI'"><span class="label bg-danger">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'CN'"><span class="label bg-lime">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'CHEQUE'"><span class="label bg-pink">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-center" ng-show="payment[9] === 'CASH'"><span class="label bg-bluegrey">{{payment[9]}}</span></td>
-    <td style="width: 25%" class="text-default" ng-show="payment[9] === 'AMEX'"><span class="label bg-info">{{payment[9]}}</span>}</td>
-    <td style="width: 25%" >{{payment[10]}}</td>
-    <td style="width: 25%" class="text-right">{{payment[11]}}</td>
-    <td style="width: 25%" >{{payment[12]}}</td>
-    </tr>
-    </tbody>
-    </table>  
-    </div>
-    </div>
-    </div>
-    </div>
-</script>

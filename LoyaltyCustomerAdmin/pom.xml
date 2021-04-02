@@ -43,7 +43,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.25</version>
         </dependency>
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc4</artifactId>
             <version>4.0</version>
@@ -65,6 +65,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>2.4</version>-->
+                <version>1.2.7.RELEASE</version>
+                <configuration>
+                    <archive>
+                        <!--                        <manifest>
+                            <mainClass>lk.kavishmanjitha.gflock_online_order_manage.GflockOnlineOrderManageApplication</mainClass>
+                        </manifest>-->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>lk.kavishmanjitha.gflock_online_order_manage.GflockOnlineOrderManageApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -116,6 +116,22 @@
                                 </li>
                             </ul>
                         </li>
+<!--                        <li ng-show="true">
+                            
+                            <a href="javascript:;" ng-click="ui.CliclLevel1('Transaction')">
+                                <i class="fa fa-camera"></i>
+                                <span>Transaction<i></i></span>
+                                <span> <label class="label label-lg label-danger" style=" border-radius: 100px;"></label></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li ng-click="ui.CliclLevel2('Price Change')">
+                                    <a href="#/price_change">
+                                        <span>Price Change</span>
+                                        <span><label class="label label-lg label-primary" style=" border-radius: 100px;"></label></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>-->
                         <li ng-show="true">
                             
                             <a href="javascript:;" ng-click="ui.CliclLevel1('Reports')">
@@ -294,7 +310,7 @@
 
                         <!-- logo -->
                         <div class="brand-logo">
-                            GFlock Dashboard
+                            Dashboard
                         </div>
                         <!-- /logo -->
 
@@ -302,6 +318,8 @@
                         <div class="toggle-chat visible-xs">
                             <a href="#/" class="fa fa-power-off v2  m10" data-toggle="layout-chat-open" ng-click="ui.logout()">
                             </a>
+<!--                            <a href="#/profile" class="fa fa-user v2 m10" data-toggle="layout-chat-open" ng-click="ui.profile()">
+                            </a>-->
                         </div>
                     </div>
 
@@ -333,6 +351,7 @@
                                 <img src="images/face.jpeg" class="header-avatar img-circle ml10" alt="user" title="user">
                                 <span class="pull-left bold badge bg-success-dark">{{globals.currentUser.username}}</span> 
                             </a> <ul class="dropdown-menu"> 
+                                <li> <a href="#/profile" class="fa fa-user">&nbsp;&nbsp;&nbsp;Profile</a> </li> 
                                 <li> <a href="#/" class="fa fa-power-off">&nbsp;&nbsp;&nbsp;Logout</a> </li> 
                             </ul> 
                         </li>

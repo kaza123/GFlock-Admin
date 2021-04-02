@@ -163,10 +163,7 @@ gulp.task('build-other', function () {
             .pipe(gulp.dest('src/main/resources/static/fonts'));
 });
 
-
-
-
-
+gulp.watch('lib/*.js', ['first', 'second']);
 
 gulp.task('build', ['build-js', 'build-css', 'build-other','build-html']);
 
@@ -177,6 +174,7 @@ gulp.task('serve', ['build', 'watch'], function () {
         }
     });
 });
+
 
 gulp.task('serve-html', ['build-html'], function (done) {
     browserSync.reload();

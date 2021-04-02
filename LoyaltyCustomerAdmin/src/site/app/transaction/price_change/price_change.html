@@ -1,0 +1,138 @@
+<div class="col-lg-3 col-md-3 col-xs-12 bg-default-light no-print" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-keyboard-o"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <h4 class="no-margin">Enter Detail</h4>
+            <br>
+            <span class="hidden-xs">&nbsp;</span>
+        </div> 
+    </div>
+    <div class="smart-scroll-y" style="height: calc(100vh - 170px)">
+        <div class="widget bg-white no-margin pb5"> 
+            <div class="pb5">
+                <i>GRN From Date</i>
+                <input type="date" class="form-control" ng-model="tempData.from_date" />
+            </div>
+            <div class="pb5">
+                <i>GRN To Date</i>
+                <input type="date" class="form-control" ng-model="tempData.from_date" />
+            </div>
+            <div class="pb5">
+                <i>Style / Department</i>
+                <input type="text" class="form-control" ng-model="tempData.department"
+                       uib-typeahead="dep[0] as (dep[1]) for dep in departmentList |filter:$viewValue|limitTo:10" 
+                       typeahead-input-formatter="depLable($model)" 
+                       typeahead-editable="false"
+                       typeahead-show-on-focus="" 
+                       typeahead-min-length="0" />
+            </div>
+            <div class="pb5">
+                <i>Category</i>
+                <input type="text" class="form-control" ng-model="tempData.category"
+                       uib-typeahead="cat[0] as (cat[1]+' - '+cat[2]) for cat in categoryList |filter:$viewValue|limitTo:10" 
+                       typeahead-input-formatter="catLable($model)" 
+                       typeahead-editable="false"
+                       typeahead-show-on-focus="" 
+                       typeahead-on-select="getItem($model)" 
+                       typeahead-min-length="0"/>
+            </div>
+            <div class="pb5">
+                <i>Item</i>
+                <input type="text" class="form-control" ng-model="tempData.item"
+                       uib-typeahead="item[0] as (item[1]) for item in itemList | filter:$viewValue     | limitTo:10" 
+                       typeahead-input-formatter="itemLable($model)" 
+                       typeahead-editable="false"
+                       typeahead-show-on-focus="" 
+                       typeahead-min-length="0" />
+            </div>
+            <div class="pb10">
+                <button class="btn btn-primary btn-block" ng-click="viewItem()">View</button>
+            </div>
+            <div class="pb5">
+                <i>Discount Type</i>
+                <select class='form-control' style="padding-top: 4px" ng-model="masterData.discount_type">
+                    <option value="1">Discount %</option>
+                    <option value="0">Discount RS:</option>
+                </select>
+            </div>
+            <div class="pb5">
+                <i>Discount</i>
+                <input type="number" class="form-control text-right" ng-model="masterData.discount" />
+            </div>
+            <div class="pb10">
+                <button class="btn btn-primary btn-block" ng-click="applyDiscount()">Apply</button>
+            </div>
+            <div class="pb2">
+                <button class="btn btn-success btn-block" ng-click="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-9 col-md-9 col-xs-12 bg-default-light" style="height: calc(100vh - 55px)">
+    <div class="widget bg-primary pb25"> 
+        <div class="widget-bg-icon"> 
+            <i class="fa fa-envelope"></i> 
+        </div> 
+        <div class="widget-details"> 
+            <div class="col-lg-6 pl0">
+                <h4 class="no-margin">Price Change</h4>
+            </div>
+            <div class="col-lg-6 pl0">
+                Quick Search :
+                <input type="text" class="form-control-2 change-pl-color" placeholder="search" ng-model="search"/>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <div class="" style="max-height: calc(100vh - 210px)">
+
+        <div class="widget bg-white no-padding" id="printDiv" ng-show="dataList.length"> 
+            <table class="table mb0 table-hover"  style="width: 100%"> 
+                <thead>
+                    <tr>
+                        <th style="width: 25%" >Item</th>
+                        <th style="width: 15%" class="text-right">Current Stock</th>
+                        <th style="width: 15%" class="text-right">Selling Price</th>
+                        <th style="width: 15%" class="text-right">Discount %</th>
+                        <th style="width: 15%" class="text-right">Discount Rs</th>
+                        <th style="width: 15%" class="text-right">New Price</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="smart-scroll-y" style="height: calc(100vh  - 267px)">
+                <table class="table mb0 table-hover"  style="width: 100%"> 
+                    <tbody>
+                        <tr style="font-size: 10px" ng-repeat="data in dataList"> 
+                            <td style="width: 25%">{{data.item_description}}</td>
+                            <td style="width: 15%" class="text-right">{{data.current_stock}}</td>
+                            <td style="width: 15%" class="text-right">{{data.selling_price| number:2}}</td>
+                            <td style="width: 15%" class="pt5 pb5">
+                                <input type="text" class="form-control text-right" ng-change="changeDiscountPer(data)" ng-model="data.discount_rate"/>
+                            </td>
+                            <td style="width: 15%" class="pt5 pb5">
+                                <input type="text" class="form-control text-right" ng-change="changeDiscountAmount(data)" ng-model="data.discount"/>
+                            </td>
+                            <td style="width: 15%" class="text-right">{{data.new_selling_price| number:2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="widget bg-white" ng-hide="dataList.length">
+            Empty.. Try Again
+        </div>
+    </div>
+    <div ng-show="dataList.length">
+        <table class="table mb0 "> 
+            <tbody>
+                <tr>
+                    <td style="width: 25%">Item Count : {{dataList.length}}</td>
+                    <td style="width: 75%"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

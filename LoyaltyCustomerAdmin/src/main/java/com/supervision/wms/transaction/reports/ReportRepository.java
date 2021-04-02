@@ -27,7 +27,8 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             + "	TRIM(pos_m_item.sub_category),\n"
             + "	sum(main_t_stock_ledger.in_qty-main_t_stock_ledger.out_qty) as balance,\n"
             + " main_m_branch.name_code, \n"
-            + " main_m_branch.index_no \n"
+            + " main_m_branch.index_no, \n"
+            + " pos_m_item.collection_no \n"
             + "from main_t_stock_ledger\n"
             + "inner JOIN pos_m_item on pos_m_item.index_no=main_t_stock_ledger.item	\n"
             + "inner JOIN main_m_branch on main_m_branch.index_no=main_t_stock_ledger.branch \n"
@@ -114,10 +115,11 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             + "	concat(pos_t_transaction_summary.tr_date, \" \",pos_t_transaction_summary.tr_end_time) as tr_date,\n"
             + "	pos_t_transaction_summary.tr_type,\n"
             + "	sum(pos_t_transaction_details.item_value) as item_value,\n"
-            + "	sum(pos_t_transaction_details.line_dis_amt1+pos_t_transaction_details.line_dis_amt2) as line_discount,\n"
+            + "	pos_t_payment_summary.discount_amount AS line_discount,\n"
             + "	sum(pos_t_transaction_details.final_value) as final_value\n"
             + "from pos_t_transaction_summary\n"
             + "left join pos_t_transaction_details on pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
+            + "INNER JOIN pos_t_payment_summary ON pos_t_payment_summary.tr_index_no=pos_t_transaction_summary.index_no \n"
             + "where pos_t_transaction_summary.tr_date>=:fromDate and pos_t_transaction_summary.tr_date<=:toDate\n"
             + "and pos_t_transaction_summary.branch=:branch\n"
             + "and(:terminal = '0' or pos_t_transaction_summary.terminal_id=:terminal)\n"
@@ -429,33 +431,7 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             @Param("category") String category,
             @Param("subCategory") String subCategory);
 
-    @Query(value = "select \n"
-            + " CONCAT(main_t_grn.transaction_number,' - ',main_t_grn.transaction_ref_number) as  transaction_number ,\n"
-            + " CONCAT(main_m_supplier.index_no,' - ',main_m_supplier.name) as supplier,\n"
-            + " main_t_grn.transaction_date,\n"
-            + " pos_m_item.barcode ,\n"
-            + " pos_m_item.details,\n"
-            + " pos_m_item.image_code ,\n"
-            + " pos_m_item.category,\n"
-            + " pos_m_item.sub_category,\n"
-            + " pos_m_item.price,\n"
-            + " sum(main_t_grn_item.qty) as stock_qty,\n"
-            + " pos_m_item.price*sum(main_t_grn_item.qty) as value\n"
-            + "from main_t_grn\n"
-            + "left join main_t_grn_item on main_t_grn_item.grn = main_t_grn.index_no\n"
-            + "left join pos_m_item on pos_m_item.index_no = main_t_grn_item.item\n"
-            + "left join main_m_supplier on main_m_supplier.index_no=main_t_grn.supplier\n"
-            + "where (:branch is null or main_t_grn.branch = :branch) \n"
-            + "and DATE_FORMAT(main_t_grn.transaction_date, '%Y-%m-%d')>=:fromDate \n"
-            + "and DATE_FORMAT(main_t_grn.transaction_date, '%Y-%m-%d')<=:toDate\n"
-            + "and (:traNo is null or main_t_grn.transaction_number=:traNo )\n"
-            + "and (:barcode is null or pos_m_item.barcode=:barcode)\n"
-            + "and (:style is null or pos_m_item.image_code=:style )\n"
-            + "and (:supplier is null or main_m_supplier.index_no=:supplier )\n"
-            + "and (:category is null or pos_m_item.category=:category )\n"
-            + "and (:subCategory is null or pos_m_item.sub_category=:subCategory)\n"
-            + "group by main_t_grn.transaction_number,main_t_grn_item.item\n"
-            + "order by main_t_grn.transaction_date", nativeQuery = true)
+    @Query(value = "CALL sp_item_wise_grn(:fromDate,:toDate,:branch,:barcode,:style,:category,:subCategory,:traNo,:supplier);", nativeQuery = true)
     public List<Object[]> itemWiseGrn(
             @Param("fromDate") String fromDate,
             @Param("toDate") String toDate,
@@ -942,9 +918,9 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             + "	'' AS 2m_p,\n"
             + "	'' AS 3m,\n"
             + "	'' AS 3m_p\n"
-            + "from m_collection_detail\n"
-            + "LEFT JOIN  pos_m_item ON pos_m_item.intCostingId=m_collection_detail.costing_id\n"
-            + "WHERE (:fromDate is NULL or m_collection_detail.collection_start_date>=:fromDate) \n"
+            + "from m_collection_detail,pos_m_item\n"
+            + "where pos_m_item.intCostingId=m_collection_detail.costing_id\n"
+            + "and (:fromDate is NULL or m_collection_detail.collection_start_date>=:fromDate) \n"
             + " AND (:toDate is NULL or m_collection_detail.collection_start_date<=:toDate)\n"
             + "	AND (:collection is NULL or pos_m_item.collection_no=:collection)\n"
             + "	AND (:style IS NULL OR m_collection_detail.style=:style)\n"
@@ -965,54 +941,54 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             @Param("designer") String designer);
 
     @Query(value = "SELECT ifnull(sum(main_t_grn_item.qty) ,0) AS grnQty\n"
-            + "FROM main_t_grn_item\n"
-            + "LEFT JOIN pos_m_item a ON a.index_no=main_t_grn_item.item\n"
-            + "WHERE a.intCostingId=:costingId",
+            + "FROM main_t_grn_item,pos_m_item\n"
+            + "where pos_m_item.index_no=main_t_grn_item.item\n"
+            + "and pos_m_item.intCostingId=:costingId",
             nativeQuery = true)
     public Integer getGRNQty(@Param("costingId") Integer costingId);
 
     @Query(value = "SELECT ifnull(sum(pos_t_transaction_details.item_qty),0) AS sales_qty\n"
-            + "from pos_t_transaction_details\n"
-            + "INNER JOIN pos_m_item ON pos_m_item.index_no=pos_t_transaction_details.item\n"
-            + "WHERE pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId",
+            + "from pos_t_transaction_details,pos_m_item\n"
+            + "where pos_m_item.index_no=pos_t_transaction_details.item\n"
+            + "and pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId",
             nativeQuery = true)
     public Integer getSalesQty(@Param("costingId") Integer costingId);
 
     @Query(value = "SELECT IFNULL(sum(pos_t_transaction_details.item_qty),0) AS sales_qty\n"
-            + "from pos_t_transaction_summary\n"
-            + "INNER JOIN pos_t_transaction_details ON pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
-            + "INNER JOIN pos_m_item ON pos_m_item.index_no=pos_t_transaction_details.item\n"
-            + "WHERE pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
+            + "from pos_t_transaction_summary,pos_t_transaction_details,pos_m_item\n"
+            + "where pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
+            + "and pos_m_item.index_no=pos_t_transaction_details.item\n"
+            + "and pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
             + "AND pos_t_transaction_summary.tr_date<=DATE_ADD(DATE_FORMAT(:collectionDate,'%Y-%m-%d'), INTERVAL 7 DAY)",
             nativeQuery = true)
     public Integer get1W(@Param("costingId") Integer costingId,
             @Param("collectionDate") String collectionDate);
 
     @Query(value = "SELECT ifnull(sum(pos_t_transaction_details.item_qty) ,0)AS sales_qty\n"
-            + "from pos_t_transaction_summary\n"
-            + "INNER JOIN pos_t_transaction_details ON pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
-            + "INNER JOIN pos_m_item ON pos_m_item.index_no=pos_t_transaction_details.item\n"
-            + "WHERE pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
+            + "from pos_t_transaction_summary,pos_t_transaction_details,pos_m_item\n"
+            + "where pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
+            + "and pos_m_item.index_no=pos_t_transaction_details.item\n"
+            + "and pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
             + "AND pos_t_transaction_summary.tr_date<=DATE_ADD(DATE_FORMAT(:collectionDate,'%Y-%m-%d'), INTERVAL 1 month)",
             nativeQuery = true)
     public Integer get1M(@Param("costingId") Integer costingId,
             @Param("collectionDate") String collectionDate);
 
     @Query(value = "SELECT ifnull(sum(pos_t_transaction_details.item_qty) ,0)AS sales_qty\n"
-            + "from pos_t_transaction_summary\n"
-            + "INNER JOIN pos_t_transaction_details ON pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
-            + "INNER JOIN pos_m_item ON pos_m_item.index_no=pos_t_transaction_details.item\n"
-            + "WHERE pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
+            + "from pos_t_transaction_summary,pos_t_transaction_details,pos_m_item\n"
+            + "where pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
+            + "and pos_m_item.index_no=pos_t_transaction_details.item\n"
+            + "and pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
             + "AND pos_t_transaction_summary.tr_date<=DATE_ADD(DATE_FORMAT(:collectionDate,'%Y-%m-%d'), INTERVAL 2 month)",
             nativeQuery = true)
     public Integer get2M(@Param("costingId") Integer costingId,
             @Param("collectionDate") String collectionDate);
 
     @Query(value = "SELECT ifnull(sum(pos_t_transaction_details.item_qty) ,0)AS sales_qty\n"
-            + "from pos_t_transaction_summary\n"
-            + "INNER JOIN pos_t_transaction_details ON pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
-            + "INNER JOIN pos_m_item ON pos_m_item.index_no=pos_t_transaction_details.item\n"
-            + "WHERE pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
+            + "from pos_t_transaction_summary,pos_t_transaction_details,pos_m_item\n"
+            + "where pos_t_transaction_details.tr_index_no=pos_t_transaction_summary.index_no\n"
+            + "and pos_m_item.index_no=pos_t_transaction_details.item\n"
+            + "and pos_t_transaction_details.tr_det_type='item' AND pos_m_item.intCostingId=:costingId\n"
             + "AND pos_t_transaction_summary.tr_date<=DATE_ADD(DATE_FORMAT(:collectionDate,'%Y-%m-%d'), INTERVAL 3 month)",
             nativeQuery = true)
     public Integer get3M(@Param("costingId") Integer costingId,
@@ -1350,36 +1326,32 @@ public interface ReportRepository extends JpaRepository<PosMItem, Integer> {
             nativeQuery = true)
     public List<Object[]> ipgReoprt(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
-    @Query(value = "SELECT pos_m_item.barcode,pos_m_item.details,\n"
-            + "\n"
-            + "(select IFNULL(sum(item.in_qty-item.out_qty),0)\n"
-            + "FROM main_t_stock_ledger item WHERE date_format(item.date_time,'%Y-%m-%d')<date_format(main_t_stock_ledger.date_time,'%Y-%m-%d')\n"
-            + "AND date_format(item.date_time,'%H:%i:%s')<:fromTime AND item.item=main_t_stock_ledger.item \n"
-            + "AND (:branch is null or item.branch=main_t_stock_ledger.branch)) AS open_stock,\n"
-            + "\n"
-            + "(select sum(in_item.in_qty) \n"
-            + "FROM main_t_stock_ledger in_item WHERE date_format(in_item.date_time,'%Y-%m-%d')=date_format(main_t_stock_ledger.date_time,'%Y-%m-%d')\n"
-            + "AND date_format(in_item.date_time,'%H:%i:%s')>=:fromTime\n"
-            + "AND date_format(in_item.date_time,'%H:%i:%s')<=:toTime AND in_item.item=main_t_stock_ledger.item \n"
-            + "AND (:branch is null or in_item.branch=main_t_stock_ledger.branch) \n"
-            + ")AS in_qty,\n"
-            + "\n"
-            + "(select sum(out_item.out_qty) \n"
-            + "FROM main_t_stock_ledger out_item WHERE date_format(out_item.date_time,'%Y-%m-%d')=date_format(main_t_stock_ledger.date_time,'%Y-%m-%d')\n"
-            + "AND date_format(out_item.date_time,'%H:%i:%s')>=:fromTime\n"
-            + "AND date_format(out_item.date_time,'%H:%i:%s')<=:toTime AND out_item.item=main_t_stock_ledger.item \n"
-            + "AND (:branch is null or out_item.branch=main_t_stock_ledger.branch) \n"
-            + ")AS out_qty\n"
-            + "\n"
-            + "FROM pos_m_item\n"
-            + "INNER JOIN main_t_stock_ledger ON main_t_stock_ledger.item =pos_m_item.index_no \n"
-            + "WHERE date_format(main_t_stock_ledger.date_time,'%Y-%m-%d')=:fromDate\n"
-            + "AND date_format(main_t_stock_ledger.date_time,'%H:%i:%s')>=:fromTime\n"
-            + "AND date_format(main_t_stock_ledger.date_time,'%H:%i:%s')<=:toTime\n"
-            + "AND (:branch is null or main_t_stock_ledger.branch=:branch)\n"
-            + "GROUP BY pos_m_item.barcode",
+    @Query(value = "SELECT \n"
+            + "v_hourly_report.bar_code,\n"
+            + "v_hourly_report.print_code,\n"
+            + "v_hourly_report.description,\n"
+            + "SUM(v_hourly_report.item_qty) AS qty,\n"
+            + "SUM(v_hourly_report.final_value) AS final_value,\n"
+            + "SUM(v_hourly_report.discount_value) AS dis_value,\n"
+            + "SUM(v_hourly_report.discounted_value) AS discounted_value,\n"
+            + "round(SUM(v_hourly_report.final_value)/SUM(v_hourly_report.item_qty),2)  AS unit_price,\n"
+            + "(SELECT SUM(main_t_stock_ledger.in_qty-main_t_stock_ledger.out_qty)\n"
+            + "	FROM main_t_stock_ledger\n"
+            + "	WHERE main_t_stock_ledger.item=v_hourly_report.index_no\n"
+            + "	AND main_t_stock_ledger.branch=v_hourly_report.branch\n"
+            + "	AND main_t_stock_ledger.date_time<:toDateTime) AS bal_qty\n"
+            + "FROM v_hourly_report\n"
+            + "WHERE v_hourly_report.date_time>=:fromDateTime\n"
+            + "AND v_hourly_report.date_time<=:toDateTime\n"
+            + "AND v_hourly_report.branch=:branch \n"
+            + "GROUP BY \n"
+            + "v_hourly_report.bar_code,\n"
+            + "v_hourly_report.print_code,\n"
+            + "v_hourly_report.description",
             nativeQuery = true)
-    public List<Object[]> hourlyReport(@Param("fromDate") String fromDate,@Param("fromTime") String fTime, 
-            @Param("toTime") String tTime, @Param("branch") Integer branch);
+    public List<Object[]> hourlyReport(
+            @Param("fromDateTime") String fromDateTime,
+            @Param("toDateTime") String toDateTime,
+            @Param("branch") Integer branch);
 
 }

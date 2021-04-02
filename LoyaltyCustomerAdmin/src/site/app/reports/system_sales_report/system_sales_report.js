@@ -237,7 +237,22 @@
                     return lable;
                 };
                 $scope.ui.print = function () {
-                    window.print();
+//                    window.print();
+//                    PrintPane.printConfirm("")
+//                            .confirm(function () {
+//                                console.log('print pdf');
+//                                $scope.printService.printPdf('printDiv');
+//                            })
+//                            .discard(function () {
+//                                $scope.printService.printExcel('printDiv', 'System_Sales_Report');
+//                            });
+
+                    var divToPrint = document.getElementById('printDiv');
+                    newWin = window.open("print");
+                    newWin.document.write(divToPrint.outerHTML);
+                    newWin.print();
+//                    newWin.close();
+
                 };
                 $scope.ui.modelCancel = function () {
                     $uibModalStack.dismissAll();
